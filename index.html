@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LoomWellOps Budget Tracker — PHP &amp; USD Personal Finance</title>
+  <title>LoomWell Budget | Japhette Alec Pulido</title>
   <meta name="theme-color" content="#4b3fd6" />
 
-  <!-- Portfolio SVG Favicon -->
+  <!-- Portfolio SVG Favicon (JP) -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Crect width=%27100%27 height=%27100%27 rx=%2722%27 fill=%27%234b3fd6%27/%3E%3Ctext x=%2750%27 y=%2768%27 font-size=%2756%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27sans-serif%27 font-weight=%27bold%27%3EJP%3C/text%3E%3C/svg%3E" />
 
-  <!-- Theme Boot Script (Defaults to Dark Mode on first load, syncs with portfolio 'theme' key) -->
+  <!-- Theme Boot Script: Syncs with loomwell-ops.github.io localStorage.theme, defaults to dark -->
   <script>
     (function () {
       var r = document.documentElement;
@@ -23,7 +23,7 @@
   <!-- Portfolio Google Fonts: Bricolage Grotesque & IBM Plex Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -40,63 +40,61 @@
     };
   </script>
 
-  <!-- GSAP & Chart.js -->
+  <!-- GSAP 3 & Chart.js 4 -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
   <style>
     /* =========================================================================
-     * 1. LOOMWELLOPS PORTFOLIO DESIGN TOKENS (DARK DEFAULT & LIGHT MODE)
+     * 1. EXACT LOOMWELLOPS PORTFOLIO DESIGN TOKENS
      * ========================================================================= */
     :root,
     :root[data-theme="dark"] {
       --bg: #13112b;
       --surface: #1d1a3f;
-      --surface-glass: rgba(29, 26, 63, 0.76);
-      --surface-solid: #191638;
-      --sidebar-bg: rgba(19, 17, 43, 0.88);
-      --header-bg: rgba(19, 17, 43, 0.78);
-      --input-bg: rgba(19, 17, 43, 0.72);
       --ink: #ecebfa;
       --muted: #a8a6cf;
       --line: #2f2b5e;
       --accent: #9c93ff;
       --accent-ink: #13112b;
-      --g2: #ff9a76;
       --mark: #c99a2e;
+      --g2: #ff9a76;
       --glow: rgba(156, 147, 255, 0.38);
-      --success: #2fb36b;
-      --danger: #ff6b81;
+      --income: #34d399;
+      --expense: #ff9a76;
+      --danger: #f87171;
+      --sidebar-bg: rgba(19, 17, 43, 0.88);
+      --input-bg: rgba(19, 17, 43, 0.72);
+      --modal-bg: #191638;
       --bgimg-local: url('bg.jpg');
       --bgimg-remote: url('https://loomwell-ops.github.io/bg.jpg');
-      --mesh-fallback: radial-gradient(circle at 82% 18%, rgba(156, 147, 255, 0.32), transparent 48%),
-                       radial-gradient(circle at 65% 42%, rgba(255, 154, 118, 0.22), transparent 44%),
-                       radial-gradient(circle at 15% 85%, rgba(75, 63, 214, 0.24), transparent 50%);
+      --mesh-fallback: radial-gradient(circle at 82% 16%, rgba(156, 147, 255, 0.34), transparent 46%),
+                       radial-gradient(circle at 66% 44%, rgba(255, 154, 118, 0.22), transparent 44%),
+                       radial-gradient(circle at 14% 86%, rgba(75, 63, 214, 0.24), transparent 50%);
     }
 
     :root[data-theme="light"] {
       --bg: #f6f5fd;
       --surface: #ffffff;
-      --surface-glass: rgba(255, 255, 255, 0.78);
-      --surface-solid: #ffffff;
-      --sidebar-bg: rgba(246, 245, 253, 0.90);
-      --header-bg: rgba(246, 245, 253, 0.82);
-      --input-bg: rgba(246, 245, 253, 0.92);
       --ink: #1a1840;
       --muted: #5b5a7d;
       --line: #dedcf2;
       --accent: #4b3fd6;
       --accent-ink: #ffffff;
-      --g2: #c24e17;
       --mark: #f3c76b;
+      --g2: #c24e17;
       --glow: rgba(75, 63, 214, 0.18);
-      --success: #1f9d57;
-      --danger: #d63b52;
+      --income: #16a34a;
+      --expense: #c24e17;
+      --danger: #dc2626;
+      --sidebar-bg: rgba(246, 245, 253, 0.90);
+      --input-bg: rgba(246, 245, 253, 0.92);
+      --modal-bg: #ffffff;
       --bgimg-local: url('bg-light.webp');
       --bgimg-remote: url('https://loomwell-ops.github.io/bg-light.webp');
-      --mesh-fallback: radial-gradient(circle at 82% 16%, rgba(75, 63, 214, 0.16), transparent 48%),
-                       radial-gradient(circle at 66% 42%, rgba(194, 78, 23, 0.12), transparent 46%),
-                       radial-gradient(circle at 12% 85%, rgba(243, 199, 107, 0.18), transparent 52%);
+      --mesh-fallback: radial-gradient(circle at 82% 16%, rgba(75, 63, 214, 0.16), transparent 46%),
+                       radial-gradient(circle at 66% 42%, rgba(194, 78, 23, 0.12), transparent 44%),
+                       radial-gradient(circle at 12% 85%, rgba(243, 199, 107, 0.20), transparent 50%);
     }
 
     * {
@@ -123,7 +121,7 @@
     }
 
     /* =========================================================================
-     * 2. PORTFOLIO AMBIENT BACKGROUND LAYER (.bg)
+     * 2. LAYERED PORTFOLIO AMBIENT BACKGROUND (.bg)
      * ========================================================================= */
     .bg {
       position: fixed;
@@ -151,11 +149,11 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(90deg, var(--bg) 0%, transparent 60%);
+      background: linear-gradient(90deg, var(--bg) 0%, transparent 55%);
     }
 
     @media (max-width: 640px) {
-      .bg { opacity: 0.58; }
+      .bg { opacity: 0.56; }
       .bg::after { background: linear-gradient(90deg, var(--bg) 0%, transparent 80%); }
     }
 
@@ -173,15 +171,15 @@
     }
 
     /* =========================================================================
-     * 3. GLASSMORPHIC SURFACES, BUTTONS, INPUTS & CONTROLS
+     * 3. GLASSMORPHIC SURFACES, BUTTONS & INPUTS
      * ========================================================================= */
     .glass-card {
-      background: var(--surface-glass);
+      background: color-mix(in srgb, var(--surface) 78%, transparent);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border: 1px solid var(--line);
       border-radius: 18px;
-      box-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 12px 32px -14px rgba(0, 0, 0, 0.28);
       transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.25s ease;
     }
 
@@ -194,7 +192,7 @@
     }
 
     .glass-static {
-      background: var(--surface-glass);
+      background: color-mix(in srgb, var(--surface) 78%, transparent);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border: 1px solid var(--line);
@@ -202,7 +200,7 @@
     }
 
     .glass-modal {
-      background: var(--surface-solid);
+      background: var(--modal-bg);
       backdrop-filter: blur(22px);
       -webkit-backdrop-filter: blur(22px);
       border: 1px solid var(--line);
@@ -210,7 +208,7 @@
       box-shadow: 0 24px 64px rgba(0, 0, 0, 0.55), 0 0 36px var(--glow);
     }
 
-    /* Portfolio Theme Toggle Pill (#theme) */
+    /* Portfolio #theme Pill Toggle */
     #theme {
       font-family: inherit;
       font-weight: 500;
@@ -219,17 +217,16 @@
       color: var(--ink);
       border: 2px solid var(--accent);
       border-radius: 2rem;
-      padding: 0.3rem 0.9rem;
+      padding: 0.28rem 0.9rem;
       font-size: 0.8rem;
       line-height: 1.25;
-      transition: color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+      transition: color 0.2s ease, box-shadow 0.2s ease;
     }
     #theme:hover {
       color: var(--accent);
       box-shadow: 0 0 16px var(--glow);
     }
 
-    /* Primary Accent Button */
     .btn-primary {
       background: var(--accent);
       color: var(--accent-ink);
@@ -242,9 +239,7 @@
       transform: translateY(-1px);
       box-shadow: 0 10px 28px var(--glow);
     }
-    .btn-primary:active {
-      transform: translateY(0);
-    }
+    .btn-primary:active { transform: translateY(0); }
 
     .btn-outline {
       background: transparent;
@@ -276,13 +271,13 @@
     }
 
     /* =========================================================================
-     * 4. GSAP ELASTIC SLIDING SIDEBAR PILL
+     * 4. GSAP ELASTIC CLIP-PATH PILLS (VERTICAL SIDEBAR & HORIZONTAL TABS)
      * ========================================================================= */
-    .nav-container {
+    .pill-track {
       position: relative;
     }
 
-    #sidebar-pill {
+    .elastic-pill {
       position: absolute;
       inset: 0;
       border-radius: 14px;
@@ -294,15 +289,24 @@
       will-change: clip-path;
     }
 
+    .elastic-pill-solid {
+      position: absolute;
+      inset: 0;
+      border-radius: 10px;
+      background: var(--accent);
+      box-shadow: 0 4px 16px var(--glow);
+      pointer-events: none;
+      z-index: 0;
+      will-change: clip-path;
+    }
+
     .nav-item {
       position: relative;
       z-index: 1;
       color: var(--muted);
       transition: color 0.2s ease;
     }
-    .nav-item:hover {
-      color: var(--ink);
-    }
+    .nav-item:hover { color: var(--ink); }
     .nav-item.active {
       color: var(--ink);
       font-weight: 600;
@@ -312,12 +316,50 @@
       filter: drop-shadow(0 0 8px var(--glow));
     }
 
-    /* =========================================================================
-     * 5. 3D-TILT VIRTUAL WALLET CARDS (INDIGO-VIOLET-CORAL GLASS)
-     * ========================================================================= */
-    .tilt-stage {
-      perspective: 1100px;
+    .seg-btn {
+      position: relative;
+      z-index: 1;
+      color: var(--muted);
+      transition: color 0.2s ease;
     }
+    .seg-btn:hover { color: var(--ink); }
+    .seg-btn.active {
+      color: var(--accent-ink);
+      font-weight: 600;
+    }
+
+    /* =========================================================================
+     * 5. SKELETON SHIMMER TRANSITION OVERLAY
+     * ========================================================================= */
+    .skeleton-block {
+      position: relative;
+      overflow: hidden;
+      background: color-mix(in srgb, var(--surface) 74%, transparent);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+    }
+    .skeleton-block::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      transform: translateX(-100%);
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        color-mix(in srgb, var(--accent) 16%, transparent) 45%,
+        color-mix(in srgb, var(--g2) 12%, transparent) 55%,
+        transparent 100%
+      );
+      animation: shimmerSweep 0.9s infinite;
+    }
+    @keyframes shimmerSweep {
+      100% { transform: translateX(100%); }
+    }
+
+    /* =========================================================================
+     * 6. 3D-TILT VIRTUAL WALLET CARDS
+     * ========================================================================= */
+    .tilt-stage { perspective: 1100px; }
 
     .virtual-card {
       position: relative;
@@ -330,17 +372,10 @@
       color: #ecebfa;
     }
 
-    .virtual-card-indigo {
-      background: linear-gradient(135deg, #4b3fd6 0%, #241f57 52%, #13112b 100%);
-    }
-
-    .virtual-card-coral {
-      background: linear-gradient(135deg, rgba(156, 147, 255, 0.85) 0%, #3d2459 48%, #c24e17 100%);
-    }
-
-    .virtual-card-midnight {
-      background: linear-gradient(135deg, #2b265c 0%, #181536 56%, #0e0c21 100%);
-    }
+    .vc-indigo { background: linear-gradient(135deg, #4b3fd6 0%, #241f57 52%, #13112b 100%); }
+    .vc-coral  { background: linear-gradient(135deg, #7c6ff7 0%, #3d2459 48%, #c24e17 100%); }
+    .vc-night  { background: linear-gradient(135deg, #2b265c 0%, #181536 56%, #0e0c21 100%); }
+    .vc-gold   { background: linear-gradient(135deg, #3b328c 0%, #211c4a 52%, #8c661b 100%); }
 
     .card-sheen {
       position: absolute;
@@ -355,14 +390,13 @@
       inset: 0;
       background-image: radial-gradient(rgba(236, 235, 250, 0.16) 1px, transparent 1px);
       background-size: 18px 18px;
-      opacity: 0.35;
+      opacity: 0.34;
       pointer-events: none;
     }
 
-    /* Metallic Card Chip */
     .card-chip {
-      width: 38px;
-      height: 28px;
+      width: 36px;
+      height: 26px;
       border-radius: 6px;
       background: linear-gradient(135deg, #f3c76b 0%, #c99a2e 50%, #f6df9e 100%);
       border: 1px solid rgba(255, 255, 255, 0.35);
@@ -378,7 +412,7 @@
     }
 
     /* =========================================================================
-     * 6. TOGGLE SWITCHES, SLIDER & SUB-TABS
+     * 7. TOGGLE SWITCHES, SLIDER & CALENDAR CELLS
      * ========================================================================= */
     .toggle-switch {
       position: relative;
@@ -391,13 +425,11 @@
       cursor: pointer;
       flex-shrink: 0;
     }
-
     .toggle-switch[aria-checked="true"] {
       background: linear-gradient(135deg, var(--accent), var(--g2));
       border-color: transparent;
       box-shadow: 0 0 16px var(--glow);
     }
-
     .toggle-knob {
       position: absolute;
       top: 2px;
@@ -409,7 +441,6 @@
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
       transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-
     .toggle-switch[aria-checked="true"] .toggle-knob {
       transform: translateX(20px);
     }
@@ -423,7 +454,6 @@
       background: color-mix(in srgb, var(--accent) 22%, transparent);
       outline: none;
     }
-
     input[type="range"].accent-slider::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
@@ -436,24 +466,38 @@
       cursor: pointer;
       transition: transform 0.15s ease;
     }
+    input[type="range"].accent-slider::-webkit-slider-thumb:hover { transform: scale(1.15); }
 
-    input[type="range"].accent-slider::-webkit-slider-thumb:hover {
-      transform: scale(1.15);
+    .cal-cell {
+      aspect-ratio: 1 / 1;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: color-mix(in srgb, var(--surface) 55%, transparent);
+      transition: border-color 0.18s ease, background-color 0.18s ease, transform 0.15s ease;
+    }
+    .cal-cell:hover {
+      border-color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 12%, transparent);
+    }
+    .cal-cell.is-today {
+      border-color: var(--accent);
+      box-shadow: inset 0 0 0 1px var(--accent);
+    }
+    .cal-cell.is-selected {
+      background: color-mix(in srgb, var(--accent) 22%, transparent);
+      border-color: var(--accent);
+      box-shadow: 0 4px 16px var(--glow);
+    }
+
+    /* Vertical Pill Bar */
+    .pill-bar-fill {
+      background: linear-gradient(180deg, var(--accent) 0%, var(--g2) 100%);
+      box-shadow: 0 6px 20px var(--glow);
+      transition: height 0.55s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .app-view { display: none; }
     .app-view.active { display: block; }
-
-    .subtab-bar { position: relative; }
-    #insights-subtab-indicator {
-      position: absolute;
-      bottom: 0;
-      height: 3px;
-      border-radius: 9999px;
-      background: linear-gradient(90deg, var(--accent), var(--g2));
-      box-shadow: 0 0 12px var(--glow);
-      pointer-events: none;
-    }
 
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
@@ -476,20 +520,20 @@
   <div id="mobile-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden lg:hidden" onclick="toggleMobileSidebar(false)"></div>
 
   <div class="relative z-10 flex min-h-screen">
-    <!-- ==================== LEFT SIDEBAR ==================== -->
+    <!-- ==================== LEFT GLASSMORPHIC SIDEBAR ==================== -->
     <aside id="sidebar" class="fixed lg:sticky top-0 left-0 z-50 h-screen w-64 shrink-0 flex flex-col justify-between p-4 border-r border-[var(--line)] bg-[var(--sidebar-bg)] backdrop-blur-xl transition-transform duration-300 -translate-x-full lg:translate-x-0">
       <div>
-        <!-- Brand Header matching Portfolio JP Mark -->
+        <!-- Brand Mark -->
         <div class="flex items-center justify-between px-2 pt-1 pb-6">
           <div class="flex items-center gap-3">
             <div class="w-9 h-9 rounded-xl bg-[#4b3fd6] flex items-center justify-center shadow-lg" style="box-shadow: 0 6px 20px var(--glow);">
               <span class="font-display font-bold text-sm text-white tracking-tight">JP</span>
             </div>
             <div>
-              <div class="flex items-center gap-1.5">
-                <span class="font-display font-bold text-base tracking-tight text-[var(--ink)]">LoomWell<span class="grad">Ops</span></span>
+              <div class="font-display font-bold text-base tracking-tight text-[var(--ink)] leading-tight">
+                LoomWell <span class="grad">Budget</span>
               </div>
-              <p class="text-[11px] text-[var(--muted)] leading-none mt-0.5">PHP &amp; USD Budget OS</p>
+              <p class="text-[11px] text-[var(--muted)] leading-none mt-0.5">PHP &amp; USD Cash Flow</p>
             </div>
           </div>
           <button class="lg:hidden p-2 rounded-lg text-[var(--muted)] hover:text-[var(--ink)]" onclick="toggleMobileSidebar(false)" aria-label="Close navigation">
@@ -497,15 +541,25 @@
           </button>
         </div>
 
-        <!-- Primary Navigation with GSAP Elastic Clip-Path Pill -->
+        <!-- Primary Navigation (6 Views + GSAP Vertical Elastic Pill) -->
         <div class="px-1">
           <p class="text-[10px] font-semibold uppercase tracking-widest text-[var(--muted)] opacity-75 px-3 mb-2">Workspace</p>
-          <nav id="sidebar-nav" class="nav-container flex flex-col gap-1.5">
-            <div id="sidebar-pill"></div>
+          <nav id="sidebar-nav" class="pill-track flex flex-col gap-1.5">
+            <div id="sidebar-pill" class="elastic-pill"></div>
 
             <button data-view="overview" class="nav-item active flex items-center gap-3 w-full px-3.5 py-2.5 rounded-[14px] text-sm font-medium text-left">
               <svg class="nav-icon w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
               <span>Overview</span>
+            </button>
+
+            <button data-view="cashflow" class="nav-item flex items-center gap-3 w-full px-3.5 py-2.5 rounded-[14px] text-sm font-medium text-left">
+              <svg class="nav-icon w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+              <span>Cash Flow</span>
+            </button>
+
+            <button data-view="recurring" class="nav-item flex items-center gap-3 w-full px-3.5 py-2.5 rounded-[14px] text-sm font-medium text-left">
+              <svg class="nav-icon w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2.5"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>
+              <span>Recurring</span>
             </button>
 
             <button data-view="wallets" class="nav-item flex items-center gap-3 w-full px-3.5 py-2.5 rounded-[14px] text-sm font-medium text-left">
@@ -516,11 +570,6 @@
             <button data-view="transactions" class="nav-item flex items-center gap-3 w-full px-3.5 py-2.5 rounded-[14px] text-sm font-medium text-left">
               <svg class="nav-icon w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24"><path d="M7 16V4m0 0L3 8m4-4 4 4M17 8v12m0 0 4-4m-4 4-4-4"/></svg>
               <span>Transactions</span>
-            </button>
-
-            <button data-view="insights" class="nav-item flex items-center gap-3 w-full px-3.5 py-2.5 rounded-[14px] text-sm font-medium text-left">
-              <svg class="nav-icon w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
-              <span>Insights</span>
             </button>
 
             <button data-view="budgets" class="nav-item flex items-center gap-3 w-full px-3.5 py-2.5 rounded-[14px] text-sm font-medium text-left">
@@ -548,194 +597,218 @@
             JP
           </div>
           <div class="min-w-0 flex-1">
-            <p class="text-xs font-semibold text-[var(--ink)] truncate">Japhette Pulido</p>
+            <p class="text-xs font-semibold text-[var(--ink)] truncate">Japhette Alec Pulido</p>
             <p class="text-[10px] text-[var(--muted)] truncate">Philippines (PHT) · Local</p>
           </div>
-          <span class="w-2 h-2 rounded-full shrink-0" style="background: var(--success);"></span>
+          <span class="w-2 h-2 rounded-full shrink-0" style="background: var(--income);"></span>
         </div>
       </div>
     </aside>
 
     <!-- ==================== MAIN CONTENT AREA ==================== -->
     <div class="flex-1 flex flex-col min-w-0">
-      <!-- Top Bar -->
-      <header class="sticky top-0 z-30 flex flex-wrap items-center justify-between gap-3 px-4 sm:px-6 lg:px-8 py-3.5 border-b border-[var(--line)] bg-[var(--header-bg)] backdrop-blur-xl">
-        <div class="flex items-center gap-3 flex-1 min-w-[190px] max-w-md">
-          <button onclick="toggleMobileSidebar(true)" class="lg:hidden p-2.5 rounded-xl border border-[var(--line)] bg-[var(--surface)] text-[var(--ink)]" aria-label="Open menu">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
-          </button>
-
-          <!-- Global Search -->
-          <div class="relative flex-1">
-            <svg class="w-4 h-4 text-[var(--muted)] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-            <input
-              id="global-search"
-              type="text"
-              placeholder="Search transactions, categories..."
-              class="field-input w-full pl-10 pr-4 py-2 rounded-xl text-sm"
-            />
-          </div>
-        </div>
-
-        <div class="flex items-center gap-2 sm:gap-3 flex-wrap">
-          <!-- Editable Live Exchange Rate Pill -->
-          <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[var(--line)] bg-[var(--surface-glass)] text-xs">
-            <span class="text-[var(--muted)] font-medium whitespace-nowrap">1 USD = ₱</span>
-            <input
-              id="topbar-rate-input"
-              type="number"
-              step="0.05"
-              min="1"
-              value="58.00"
-              aria-label="USD to PHP Exchange Rate"
-              class="w-16 bg-transparent font-display font-bold text-[var(--accent)] tabular-nums focus:outline-none border-b border-[var(--line)] focus:border-[var(--accent)] text-right"
-            />
-          </div>
-
-          <!-- Portfolio Theme Toggle Pill -->
-          <button id="theme" type="button" aria-pressed="true" aria-label="Switch to light mode">Light</button>
-
-          <!-- Primary Add Transaction Button -->
-          <button onclick="openTransactionModal('expense')" class="btn-primary inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm whitespace-nowrap">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14"/></svg>
-            <span class="hidden sm:inline">Add Transaction</span>
-            <span class="sm:hidden">Add</span>
-          </button>
-        </div>
-      </header>
-
-      <!-- Views Container -->
-      <main class="flex-1 px-4 sm:px-6 lg:px-8 py-6 max-w-[1400px] w-full mx-auto pb-20 lg:pb-8">
-
-        <!-- ==================== VIEW 1: OVERVIEW ==================== -->
-        <section id="view-overview" class="app-view active space-y-6">
-          <!-- Greeting & Quick Actions -->
-          <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
-            <div>
-              <span class="inline-flex items-center gap-2 text-xs font-medium px-3 py-1 rounded-full border border-[var(--line)] bg-[var(--surface-glass)] text-[var(--muted)] mb-2">
-                <span class="w-2 h-2 rounded-full" style="background: var(--success);"></span>
-                Philippines (PHT) · USD → PHP Tracker
-              </span>
-              <h1 id="greeting-title" class="font-display text-2xl sm:text-3xl font-bold tracking-tight text-[var(--ink)]">
-                Financial <span class="grad">Overview</span>
-              </h1>
-              <p class="text-sm text-[var(--muted)] mt-1">Track USD client payouts and PHP daily expenses in one clean workspace.</p>
-            </div>
-            <div class="flex items-center gap-2">
-              <button onclick="openTransactionModal('income')" class="btn-primary px-3.5 py-2 rounded-xl text-xs whitespace-nowrap">
-                + Log USD Payout
+      <!-- ==================== PERSONALIZED HERO HEADER BAR ==================== -->
+      <header class="px-4 sm:px-6 lg:px-8 pt-4 pb-5 border-b border-[var(--line)]" style="background: color-mix(in srgb, var(--bg) 72%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);">
+        <div class="max-w-[1400px] mx-auto space-y-4">
+          <!-- Top Utility Row: Greeting + Date + Status Pill + FX + Theme + Add -->
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-3 min-w-0">
+              <button onclick="toggleMobileSidebar(true)" class="lg:hidden p-2.5 rounded-xl border border-[var(--line)] bg-[var(--surface)] text-[var(--ink)] shrink-0" aria-label="Open menu">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
               </button>
-              <button onclick="openTransactionModal('expense')" class="btn-outline px-3.5 py-2 rounded-xl text-xs whitespace-nowrap">
-                + Add PHP Expense
+
+              <div class="min-w-0">
+                <div class="flex flex-wrap items-center gap-2.5">
+                  <h1 id="hero-greeting" class="font-display text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight text-[var(--ink)]">
+                    Morning, <span class="grad">Japhette</span>
+                  </h1>
+                  <!-- Interactive Quick Status Pill -->
+                  <button
+                    id="hero-status-pill"
+                    onclick="switchView('recurring')"
+                    class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-medium border border-[var(--line)] hover:border-[var(--accent)] transition cursor-pointer"
+                    style="background: color-mix(in srgb, var(--surface) 78%, transparent); color: var(--muted);"
+                    title="View recurring bills & payouts"
+                  >
+                    <span id="hero-status-dot" class="w-2 h-2 rounded-full" style="background: var(--income);"></span>
+                    <span id="hero-status-text">All caught up · 0 bills due</span>
+                  </button>
+                </div>
+                <p id="hero-date" class="text-xs text-[var(--muted)] mt-0.5"></p>
+              </div>
+            </div>
+
+            <!-- Right Controls: FX Rate, Theme Toggle, + Add Transaction -->
+            <div class="flex items-center gap-2 sm:gap-2.5 flex-wrap">
+              <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[var(--line)] text-xs" style="background: color-mix(in srgb, var(--surface) 78%, transparent);">
+                <span class="text-[var(--muted)] font-medium whitespace-nowrap">1 USD = ₱</span>
+                <input
+                  id="topbar-rate-input"
+                  type="number"
+                  step="0.05"
+                  min="1"
+                  value="58.00"
+                  aria-label="USD to PHP Exchange Rate"
+                  class="w-16 bg-transparent font-display font-bold text-[var(--accent)] tabular-nums focus:outline-none border-b border-[var(--line)] focus:border-[var(--accent)] text-right"
+                />
+              </div>
+
+              <button id="theme" type="button" aria-pressed="true" aria-label="Switch to light mode">Light</button>
+
+              <button onclick="openTransactionModal('expense')" class="btn-primary inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm whitespace-nowrap">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14"/></svg>
+                <span>Add Transaction</span>
               </button>
             </div>
           </div>
 
-          <!-- 4 Rolling KPI Cards -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-            <div class="glass-card p-5 relative overflow-hidden">
+          <!-- Hero KPI Strip (3 Glassmorphic Metric Cards) -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+            <div class="glass-card p-4 sm:p-5">
               <div class="flex items-center justify-between">
-                <p class="text-xs font-medium text-[var(--muted)]">Total Balance</p>
-                <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full border border-[var(--accent)] text-[var(--accent)]">PHP</span>
+                <span class="text-xs font-medium text-[var(--muted)]">Total Balance</span>
+                <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full border border-[var(--accent)] text-[var(--accent)]">PHP Primary</span>
               </div>
-              <p id="kpi-total-balance" class="font-display text-2xl sm:text-3xl font-bold text-[var(--ink)] tabular-nums mt-2">₱0.00</p>
-              <p id="kpi-total-balance-usd" class="text-xs text-[var(--accent)] tabular-nums mt-1 font-medium">≈ $0.00 USD</p>
+              <p id="hero-total-balance" class="font-display text-2xl sm:text-3xl font-bold text-[var(--ink)] tabular-nums mt-1.5">₱0.00</p>
+              <p id="hero-total-balance-usd" class="text-xs text-[var(--accent)] font-medium tabular-nums mt-0.5">≈ $0.00 USD</p>
             </div>
 
-            <div class="glass-card p-5">
+            <div class="glass-card p-4 sm:p-5">
               <div class="flex items-center justify-between">
-                <p class="text-xs font-medium text-[var(--muted)]">Monthly Income</p>
-                <span class="text-xs font-bold" style="color: var(--success);">↗</span>
+                <span class="text-xs font-medium text-[var(--muted)]">Monthly Income</span>
+                <span class="text-xs font-bold" style="color: var(--income);">↗ Inflow</span>
               </div>
-              <p id="kpi-monthly-income" class="font-display text-2xl sm:text-3xl font-bold tabular-nums mt-2" style="color: var(--success);">₱0.00</p>
-              <p id="kpi-income-usd-note" class="text-xs text-[var(--muted)] tabular-nums mt-1">Includes $0.00 in USD payouts</p>
+              <p id="hero-monthly-income" class="font-display text-2xl sm:text-3xl font-bold tabular-nums mt-1.5" style="color: var(--income);">₱0.00</p>
+              <p id="hero-income-count" class="text-xs text-[var(--muted)] tabular-nums mt-0.5">0 payouts this month</p>
             </div>
 
-            <div class="glass-card p-5">
+            <div class="glass-card p-4 sm:p-5">
               <div class="flex items-center justify-between">
-                <p class="text-xs font-medium text-[var(--muted)]">Monthly Expenses</p>
-                <span class="text-xs font-bold" style="color: var(--danger);">↘</span>
+                <span class="text-xs font-medium text-[var(--muted)]">Monthly Expenses</span>
+                <span class="text-xs font-bold" style="color: var(--expense);">↘ Outflow</span>
               </div>
-              <p id="kpi-monthly-expenses" class="font-display text-2xl sm:text-3xl font-bold text-[var(--ink)] tabular-nums mt-2">₱0.00</p>
-              <p id="kpi-cap-note" class="text-xs text-[var(--muted)] tabular-nums mt-1">Cap: Not set</p>
-            </div>
-
-            <div class="glass-card p-5">
-              <div class="flex items-center justify-between">
-                <p class="text-xs font-medium text-[var(--muted)]">Savings Rate</p>
-                <span class="w-2.5 h-2.5 rounded-full" style="background: var(--mark);"></span>
-              </div>
-              <p id="kpi-savings-rate" class="font-display text-2xl sm:text-3xl font-bold grad tabular-nums mt-2">0.0%</p>
-              <p id="kpi-net-saved-note" class="text-xs text-[var(--muted)] tabular-nums mt-1">Net saved: ₱0.00</p>
+              <p id="hero-monthly-expenses" class="font-display text-2xl sm:text-3xl font-bold tabular-nums mt-1.5" style="color: var(--ink);">₱0.00</p>
+              <p id="hero-expense-count" class="text-xs text-[var(--muted)] tabular-nums mt-0.5">0 expenses this month</p>
             </div>
           </div>
 
           <!-- Overbudget Alert Banner -->
-          <div id="overbudget-alert-banner" class="hidden p-4 rounded-2xl border text-xs sm:text-sm flex items-center gap-3" style="background: color-mix(in srgb, var(--danger) 12%, var(--surface)); border-color: color-mix(in srgb, var(--danger) 45%, transparent); color: var(--ink);">
-            <svg class="w-5 h-5 shrink-0" style="color: var(--danger);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            <span>Your monthly expenses have exceeded your spending cap. Review your Wallets or Budgets tab.</span>
+          <div id="overbudget-alert-banner" class="hidden px-4 py-3 rounded-2xl border text-xs flex items-center justify-between gap-3" style="background: color-mix(in srgb, var(--danger) 12%, var(--surface)); border-color: color-mix(in srgb, var(--danger) 45%, transparent); color: var(--ink);">
+            <div class="flex items-center gap-2.5">
+              <svg class="w-4 h-4 shrink-0" style="color: var(--danger);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              <span>Monthly expenses have exceeded your spending cap. Review your Wallets or Budgets tab.</span>
+            </div>
+            <button onclick="switchView('wallets')" class="text-xs font-semibold underline shrink-0" style="color: var(--danger);">Adjust Cap</button>
           </div>
+        </div>
+      </header>
 
-          <!-- Charts Row -->
+      <!-- ==================== MAIN VIEWS CONTAINER ==================== -->
+      <main class="flex-1 px-4 sm:px-6 lg:px-8 py-6 max-w-[1400px] w-full mx-auto pb-20 lg:pb-10 relative">
+
+        <!-- SKELETON SHIMMER TRANSITION PLACEHOLDER (~220ms) -->
+        <div id="view-skeleton" class="hidden space-y-6" aria-hidden="true">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <div class="lg:col-span-7 skeleton-block h-72"></div>
+            <div class="lg:col-span-5 skeleton-block h-72"></div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="skeleton-block h-28"></div>
+            <div class="skeleton-block h-28"></div>
+            <div class="skeleton-block h-28"></div>
+          </div>
+          <div class="skeleton-block h-44"></div>
+        </div>
+
+        <!-- ==================== VIEW 1: OVERVIEW ==================== -->
+        <section id="view-overview" class="app-view active space-y-6">
+          <!-- 2-Column Asymmetric Main Grid -->
           <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
-            <!-- Cash Flow Chart -->
+            <!-- Left: Balance & Cash Flow Smooth Area Chart -->
             <div class="xl:col-span-7 glass-card p-5 sm:p-6 flex flex-col justify-between">
-              <div class="flex items-center justify-between mb-4">
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
                 <div>
-                  <h2 class="font-display text-base font-bold text-[var(--ink)]">Cash Flow</h2>
-                  <p class="text-xs text-[var(--muted)]">Income vs. Expenses in PHP (₱)</p>
+                  <h2 class="font-display text-base font-bold text-[var(--ink)]">Balance &amp; Cash Flow</h2>
+                  <p class="text-xs text-[var(--muted)]">Cumulative balance trajectory in PHP (₱)</p>
                 </div>
-                <div class="flex items-center gap-3 text-[11px] text-[var(--muted)]">
-                  <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-[var(--accent)]"></span>Income</span>
-                  <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-[var(--g2)]"></span>Expenses</span>
+                <div class="flex items-center gap-2">
+                  <button onclick="openTransactionModal('income')" class="btn-outline px-2.5 py-1.5 rounded-lg text-[11px]">+ USD Payout</button>
+                  <button onclick="openTransactionModal('expense')" class="btn-outline px-2.5 py-1.5 rounded-lg text-[11px]">+ PHP Expense</button>
                 </div>
               </div>
 
-              <div class="relative h-60 w-full">
-                <canvas id="overviewCashflowChart"></canvas>
-                <div id="overview-cashflow-empty" class="hidden absolute inset-0 flex flex-col items-center justify-center text-center p-4 rounded-xl border border-dashed border-[var(--line)]" style="background: color-mix(in srgb, var(--bg) 55%, transparent);">
-                  <p class="font-display text-sm font-bold text-[var(--ink)]">No cash flow data yet</p>
-                  <p class="text-xs text-[var(--muted)] mt-1 max-w-xs">Log your first USD payout or PHP expense to visualize your real-time cash flow.</p>
-                  <button onclick="openTransactionModal('income')" class="btn-primary mt-3 px-3.5 py-1.5 rounded-lg text-xs">
-                    + Log USD Payout
-                  </button>
+              <div class="relative h-64 w-full">
+                <canvas id="overviewBalanceChart"></canvas>
+                <div id="overview-balance-empty" class="hidden absolute inset-0 flex flex-col items-center justify-center text-center p-5 rounded-xl border border-dashed border-[var(--line)]" style="background: color-mix(in srgb, var(--bg) 55%, transparent);">
+                  <p class="font-display text-sm font-bold text-[var(--ink)]">Your balance chart starts at ₱0.00</p>
+                  <p class="text-xs text-[var(--muted)] mt-1 max-w-xs">Log your first USD client payout or PHP expense to track your cumulative balance curve.</p>
+                  <div class="flex flex-wrap items-center justify-center gap-2 mt-3.5">
+                    <button onclick="openTransactionModal('income')" class="btn-primary px-3.5 py-1.5 rounded-lg text-xs">+ Log USD Payout</button>
+                    <button onclick="openTransactionModal('expense')" class="btn-outline px-3.5 py-1.5 rounded-lg text-xs">+ Add PHP Expense</button>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <!-- Category Spending Doughnut -->
+            <!-- Right: Vertical Pill-Bar Breakdown Card -->
             <div class="xl:col-span-5 glass-card p-5 sm:p-6 flex flex-col justify-between">
               <div class="flex items-center justify-between mb-4">
                 <div>
-                  <h2 class="font-display text-base font-bold text-[var(--ink)]">Category Spending</h2>
-                  <p class="text-xs text-[var(--muted)]">Breakdown of PHP outflows</p>
+                  <h2 class="font-display text-base font-bold text-[var(--ink)]">Top Spending Breakdown</h2>
+                  <p class="text-xs text-[var(--muted)]">Top 5 categories this month</p>
                 </div>
                 <button onclick="switchView('budgets')" class="text-xs font-medium text-[var(--accent)] hover:underline">Budgets →</button>
               </div>
 
-              <div class="relative h-60 w-full flex items-center justify-center">
-                <canvas id="overviewCategoryChart"></canvas>
-                <div id="overview-cat-center" class="hidden absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                  <span class="text-[11px] text-[var(--muted)]">Total Spent</span>
-                  <span id="overview-cat-center-val" class="font-display text-lg font-bold text-[var(--ink)] tabular-nums">₱0</span>
-                </div>
-                <div id="overview-category-empty" class="hidden absolute inset-0 flex flex-col items-center justify-center text-center p-4 rounded-xl border border-dashed border-[var(--line)]" style="background: color-mix(in srgb, var(--bg) 55%, transparent);">
-                  <p class="font-display text-sm font-bold text-[var(--ink)]">₱0.00 spent so far</p>
-                  <p class="text-xs text-[var(--muted)] mt-1 max-w-[220px]">Your spending breakdown will appear here as soon as you record an expense.</p>
-                  <button onclick="openTransactionModal('expense')" class="btn-outline mt-3 px-3.5 py-1.5 rounded-lg text-xs">
-                    + Add PHP Expense
-                  </button>
-                </div>
+              <div id="overview-pillbars-wrap" class="relative h-64 flex items-end justify-between gap-2.5 sm:gap-3.5 pt-6 pb-1 px-1"></div>
+
+              <div id="overview-pillbars-empty" class="hidden h-64 flex flex-col items-center justify-center text-center p-5 rounded-xl border border-dashed border-[var(--line)]" style="background: color-mix(in srgb, var(--bg) 55%, transparent);">
+                <p class="font-display text-sm font-bold text-[var(--ink)]">₱0.00 spent this month</p>
+                <p class="text-xs text-[var(--muted)] mt-1 max-w-[230px]">Tall glowing pill bars will visualize your top spending categories as soon as you add an expense.</p>
+                <button onclick="openTransactionModal('expense')" class="btn-outline mt-3.5 px-3.5 py-1.5 rounded-lg text-xs">+ Add PHP Expense</button>
               </div>
             </div>
           </div>
 
-          <!-- Recent Transactions -->
+          <!-- Bottom Health Metric Row (3 Compact Glass Cards) -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="glass-card p-5">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-[var(--muted)]">Savings Rate</span>
+                <span class="w-2.5 h-2.5 rounded-full" style="background: var(--income);"></span>
+              </div>
+              <p id="health-savings-rate" class="font-display text-2xl font-bold grad tabular-nums mt-1.5">0.0%</p>
+              <p id="health-savings-sub" class="text-xs text-[var(--muted)] tabular-nums mt-1">Net saved: ₱0.00</p>
+            </div>
+
+            <div class="glass-card p-5">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-[var(--muted)]">Budget Used</span>
+                <span id="health-budget-badge" class="text-[11px] font-semibold text-[var(--accent)] tabular-nums">0%</span>
+              </div>
+              <p id="health-budget-used" class="font-display text-2xl font-bold text-[var(--ink)] tabular-nums mt-1.5">0.0%</p>
+              <div class="w-full h-1.5 rounded-full overflow-hidden mt-2" style="background: color-mix(in srgb, var(--accent) 16%, transparent);">
+                <div id="health-budget-bar" class="h-full rounded-full transition-all duration-300" style="width: 0%; background: linear-gradient(90deg, var(--accent), var(--g2));"></div>
+              </div>
+              <p id="health-budget-sub" class="text-[11px] text-[var(--muted)] tabular-nums mt-1.5">Cap: Not set</p>
+            </div>
+
+            <div class="glass-card p-5">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-[var(--muted)]">Avg USD-to-PHP Rate</span>
+                <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full border border-[var(--line)] text-[var(--muted)]">FX</span>
+              </div>
+              <p id="health-avg-fx" class="font-display text-2xl font-bold text-[var(--accent)] tabular-nums mt-1.5">₱58.00</p>
+              <p id="health-avg-fx-sub" class="text-xs text-[var(--muted)] tabular-nums mt-1">Using current global rate</p>
+            </div>
+          </div>
+
+          <!-- Recent Activity Mini-List -->
           <div class="glass-card p-5 sm:p-6">
             <div class="flex items-center justify-between mb-4">
               <div>
-                <h3 class="font-display text-base font-bold text-[var(--ink)]">Recent Transactions</h3>
-                <p class="text-xs text-[var(--muted)]">Your latest PHP and USD activity</p>
+                <h3 class="font-display text-base font-bold text-[var(--ink)]">Recent Activity</h3>
+                <p class="text-xs text-[var(--muted)]">Latest 5 PHP &amp; USD transactions</p>
               </div>
               <button onclick="switchView('transactions')" class="text-xs font-medium text-[var(--accent)] hover:underline">View all →</button>
             </div>
@@ -743,30 +816,221 @@
           </div>
         </section>
 
-        <!-- ==================== VIEW 2: WALLETS ==================== -->
-        <section id="view-wallets" class="app-view space-y-6">
-          <div>
-            <h1 class="font-display text-2xl sm:text-3xl font-bold text-[var(--ink)]">Wallets &amp; <span class="grad">Controls</span></h1>
-            <p class="text-sm text-[var(--muted)] mt-1">Interactive 3D virtual wallets, PHP spending cap, and smart spending guardrails.</p>
+        <!-- ==================== VIEW 2: CASH FLOW & FORECAST ==================== -->
+        <section id="view-cashflow" class="app-view space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div>
+              <h2 class="font-display text-2xl font-bold text-[var(--ink)]">Cash Flow &amp; <span class="grad">Forecast</span></h2>
+              <p class="text-sm text-[var(--muted)] mt-0.5">6-month cash flow performance and 30-day recurring balance projection.</p>
+            </div>
+
+            <!-- GSAP Elastic Horizontal Sub-Tab Switcher -->
+            <div id="cashflow-subtabs" class="pill-track inline-flex p-1 rounded-xl border border-[var(--line)] self-start" style="background: color-mix(in srgb, var(--surface) 78%, transparent);">
+              <div id="cashflow-subtab-pill" class="elastic-pill-solid"></div>
+              <button data-cfsub="monthly" class="seg-btn active px-4 py-1.5 rounded-[10px] text-xs font-semibold whitespace-nowrap">Cash Flow by Month</button>
+              <button data-cfsub="forecast" class="seg-btn px-4 py-1.5 rounded-[10px] text-xs font-semibold whitespace-nowrap">Next 30 Days Forecast</button>
+            </div>
           </div>
 
-          <!-- 3D Tilt Wallet Cards Row -->
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-5" id="wallets-cards-grid"></div>
+          <!-- 4-Card Summary Strip -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+            <div class="glass-card p-4 sm:p-5">
+              <p class="text-xs text-[var(--muted)]">Opening Balance</p>
+              <p id="cf-opening" class="font-display text-2xl font-bold text-[var(--ink)] tabular-nums mt-1.5">₱0.00</p>
+              <p class="text-[11px] text-[var(--muted)] mt-0.5">Prior to current month</p>
+            </div>
+            <div class="glass-card p-4 sm:p-5">
+              <p class="text-xs text-[var(--muted)]">Total Inflow</p>
+              <p id="cf-inflow" class="font-display text-2xl font-bold tabular-nums mt-1.5" style="color: var(--income);">₱0.00</p>
+              <p class="text-[11px] text-[var(--muted)] mt-0.5">All recorded income</p>
+            </div>
+            <div class="glass-card p-4 sm:p-5">
+              <p class="text-xs text-[var(--muted)]">Total Outflow</p>
+              <p id="cf-outflow" class="font-display text-2xl font-bold tabular-nums mt-1.5" style="color: var(--expense);">₱0.00</p>
+              <p class="text-[11px] text-[var(--muted)] mt-0.5">All recorded expenses</p>
+            </div>
+            <div class="glass-card p-4 sm:p-5">
+              <p class="text-xs text-[var(--muted)]">Net Cash Flow</p>
+              <p id="cf-net" class="font-display text-2xl font-bold tabular-nums mt-1.5">₱0.00</p>
+              <p class="text-[11px] text-[var(--muted)] mt-0.5">Inflow minus outflow</p>
+            </div>
+          </div>
 
-          <!-- Spending Cap Slider + Smart Controls -->
+          <!-- Sub-tab 1: Cash Flow by Month -->
+          <div id="cf-panel-monthly" class="space-y-5">
+            <div class="glass-card p-5 sm:p-6">
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+                <div>
+                  <h3 class="font-display text-base font-bold text-[var(--ink)]">Last 6 Months Comparison</h3>
+                  <p class="text-xs text-[var(--muted)]">Grouped monthly Income vs. Expenses in PHP (₱)</p>
+                </div>
+                <div class="flex items-center gap-4 text-[11px] text-[var(--muted)]">
+                  <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm" style="background: var(--income);"></span>Income</span>
+                  <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm" style="background: var(--expense);"></span>Expenses</span>
+                </div>
+              </div>
+              <div class="relative h-64">
+                <canvas id="cashflowMonthlyChart"></canvas>
+                <div id="cf-monthly-empty" class="hidden absolute inset-0 flex flex-col items-center justify-center text-center p-5 rounded-xl border border-dashed border-[var(--line)]" style="background: color-mix(in srgb, var(--bg) 55%, transparent);">
+                  <p class="font-display text-sm font-bold text-[var(--ink)]">No monthly cash flow history yet</p>
+                  <p class="text-xs text-[var(--muted)] mt-1 max-w-xs">Add income or expenses to compare your last 6 months side by side.</p>
+                  <button onclick="openTransactionModal('income')" class="btn-primary mt-3 px-3.5 py-1.5 rounded-lg text-xs">+ Log USD Payout</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 6-Month Breakdown Strip -->
+            <div id="cf-monthly-strip" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3"></div>
+          </div>
+
+          <!-- Sub-tab 2: Next 30 Days Forecast -->
+          <div id="cf-panel-forecast" class="hidden space-y-5">
+            <div class="glass-card p-5 sm:p-6">
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+                <div>
+                  <h3 class="font-display text-base font-bold text-[var(--ink)]">Next 30 Days Balance Trajectory</h3>
+                  <p class="text-xs text-[var(--muted)]">Starts from current balance and applies scheduled Recurring bills &amp; payouts</p>
+                </div>
+                <button onclick="openRecurringModal()" class="btn-outline px-3 py-1.5 rounded-lg text-xs">+ Add Recurring</button>
+              </div>
+              <div class="relative h-64">
+                <canvas id="cashflowForecastChart"></canvas>
+                <div id="cf-forecast-empty" class="hidden absolute inset-0 flex flex-col items-center justify-center text-center p-5 rounded-xl border border-dashed border-[var(--line)]" style="background: color-mix(in srgb, var(--bg) 55%, transparent);">
+                  <p class="font-display text-sm font-bold text-[var(--ink)]">Flat ₱0.00 forecast</p>
+                  <p class="text-xs text-[var(--muted)] mt-1 max-w-sm">Schedule recurring bills or expected USD payouts in the Recurring tab to project your 30-day runway.</p>
+                  <button onclick="openRecurringModal()" class="btn-primary mt-3 px-3.5 py-1.5 rounded-lg text-xs">+ Add Recurring Bill / Payout</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Upcoming Projected Milestones -->
+            <div class="glass-card p-5 sm:p-6">
+              <div class="flex items-center justify-between mb-3">
+                <div>
+                  <h3 class="font-display text-base font-bold text-[var(--ink)]">Projected 30-Day Milestones</h3>
+                  <p class="text-xs text-[var(--muted)]">Upcoming bills and expected payouts factored into the forecast</p>
+                </div>
+                <span id="cf-forecast-end-bal" class="text-xs font-semibold text-[var(--accent)] tabular-nums">Day 30: ₱0.00</span>
+              </div>
+              <div id="cf-forecast-milestones" class="divide-y divide-[var(--line)]"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== VIEW 3: AUTOMATIC PAYMENTS / RECURRING ==================== -->
+        <section id="view-recurring" class="app-view space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+            <div>
+              <h2 class="font-display text-2xl font-bold text-[var(--ink)]">Automatic Payments &amp; <span class="grad">Recurring</span></h2>
+              <p class="text-sm text-[var(--muted)] mt-0.5">Monthly bills, subscriptions, and expected USD client payouts.</p>
+            </div>
+            <button onclick="openRecurringModal()" class="btn-primary inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs self-start sm:self-auto">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14"/></svg>
+              <span>Add Recurring</span>
+            </button>
+          </div>
+
+          <!-- 4 Recurring Summary Cards -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+            <div class="glass-card p-4 sm:p-5">
+              <p class="text-xs text-[var(--muted)]">Monthly Fixed Costs</p>
+              <p id="rec-fixed-costs" class="font-display text-2xl font-bold tabular-nums mt-1.5" style="color: var(--expense);">₱0.00</p>
+              <p class="text-[11px] text-[var(--muted)] mt-0.5">Scheduled recurring bills</p>
+            </div>
+            <div class="glass-card p-4 sm:p-5">
+              <p class="text-xs text-[var(--muted)]">Active Bills / Subs</p>
+              <p id="rec-active-count" class="font-display text-2xl font-bold text-[var(--ink)] tabular-nums mt-1.5">0</p>
+              <p class="text-[11px] text-[var(--muted)] mt-0.5">Recurring outflows</p>
+            </div>
+            <div class="glass-card p-4 sm:p-5">
+              <p class="text-xs text-[var(--muted)]">Expected Monthly Payouts</p>
+              <p id="rec-expected-payouts" class="font-display text-2xl font-bold tabular-nums mt-1.5" style="color: var(--income);">₱0.00</p>
+              <p class="text-[11px] text-[var(--muted)] mt-0.5">Recurring USD/PHP income</p>
+            </div>
+            <div class="glass-card p-4 sm:p-5">
+              <p class="text-xs text-[var(--muted)]">Upcoming Due (Next 7 Days)</p>
+              <p id="rec-due-7days" class="font-display text-2xl font-bold text-[var(--accent)] tabular-nums mt-1.5">₱0.00</p>
+              <p id="rec-due-7days-count" class="text-[11px] text-[var(--muted)] mt-0.5">0 bills due soon</p>
+            </div>
+          </div>
+
+          <!-- Split Layout: Calendar Grid + Scheduled List -->
+          <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+            <!-- Left: Interactive Monthly Calendar Grid -->
+            <div class="xl:col-span-6 glass-card p-5 sm:p-6">
+              <div class="flex items-center justify-between mb-4">
+                <div>
+                  <h3 id="cal-month-label" class="font-display text-base font-bold text-[var(--ink)]">November 2026</h3>
+                  <p class="text-[11px] text-[var(--muted)]">Click any date to filter or add a scheduled item</p>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <button onclick="changeCalendarMonth(-1)" class="btn-outline p-2 rounded-lg" aria-label="Previous month">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 18l-6-6 6-6"/></svg>
+                  </button>
+                  <button onclick="resetCalendarMonth()" class="btn-outline px-2.5 py-1.5 rounded-lg text-[11px]">Today</button>
+                  <button onclick="changeCalendarMonth(1)" class="btn-outline p-2 rounded-lg" aria-label="Next month">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Weekday Headers -->
+              <div class="grid grid-cols-7 gap-1.5 text-center text-[11px] font-semibold text-[var(--muted)] mb-2">
+                <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+              </div>
+
+              <!-- Calendar Cells -->
+              <div id="recurring-calendar-grid" class="grid grid-cols-7 gap-1.5"></div>
+
+              <!-- Legend -->
+              <div class="flex flex-wrap items-center justify-between gap-2 mt-4 pt-3 border-t border-[var(--line)] text-[11px] text-[var(--muted)]">
+                <div class="flex items-center gap-4">
+                  <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full" style="background: var(--expense);"></span>Recurring Bill</span>
+                  <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full" style="background: var(--income);"></span>Expected Payout</span>
+                </div>
+                <button id="cal-clear-filter-btn" onclick="clearCalendarDayFilter()" class="hidden text-[var(--accent)] font-medium hover:underline">Show all days</button>
+              </div>
+            </div>
+
+            <!-- Right: Scheduled Bills & Payouts List -->
+            <div class="xl:col-span-6 glass-card p-5 sm:p-6 flex flex-col">
+              <div class="flex items-center justify-between gap-2 mb-4">
+                <div>
+                  <h3 id="rec-list-title" class="font-display text-base font-bold text-[var(--ink)]">Scheduled Bills &amp; Payouts</h3>
+                  <p id="rec-list-sub" class="text-xs text-[var(--muted)]">One-click Mark Paid / Received logs directly to Transactions</p>
+                </div>
+                <button id="rec-add-for-day-btn" onclick="openRecurringModal(selectedCalendarDay || undefined)" class="btn-outline px-3 py-1.5 rounded-lg text-xs whitespace-nowrap">+ Add Item</button>
+              </div>
+
+              <div id="recurring-list" class="space-y-3 flex-1"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== VIEW 4: WALLETS ==================== -->
+        <section id="view-wallets" class="app-view space-y-6">
+          <div>
+            <h2 class="font-display text-2xl font-bold text-[var(--ink)]">Wallets &amp; <span class="grad">Smart Controls</span></h2>
+            <p class="text-sm text-[var(--muted)] mt-0.5">Interactive 3D virtual wallets, monthly PHP spending cap, and card guardrails.</p>
+          </div>
+
+          <!-- 4 Interactive 3D-Tilt Virtual Wallet Cards -->
+          <div id="wallets-cards-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5"></div>
+
+          <!-- Smart Controls Panel -->
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             <div class="lg:col-span-6 glass-card p-6 space-y-4">
               <div class="flex items-center justify-between gap-2">
                 <div>
                   <h3 class="font-display text-base font-bold text-[var(--ink)]">Monthly Spending Cap</h3>
-                  <p class="text-xs text-[var(--muted)]">Slide to set your target PHP monthly limit</p>
+                  <p class="text-xs text-[var(--muted)]">Slide to set your target monthly PHP limit</p>
                 </div>
                 <span id="wallet-limit-display" class="font-display text-xl font-bold text-[var(--accent)] tabular-nums">₱0</span>
               </div>
 
               <div class="space-y-2">
                 <div class="flex justify-between text-xs text-[var(--muted)] tabular-nums">
-                  <span>Spent: <strong id="wallet-spent-display" class="text-[var(--ink)]">₱0.00</strong></span>
+                  <span>Spent this month: <strong id="wallet-spent-display" class="text-[var(--ink)]">₱0.00</strong></span>
                   <span id="wallet-limit-pct">No cap set</span>
                 </div>
                 <div class="w-full h-3 rounded-full border border-[var(--line)] overflow-hidden" style="background: color-mix(in srgb, var(--accent) 12%, transparent);">
@@ -787,37 +1051,41 @@
             <div class="lg:col-span-6 glass-card p-6 space-y-4">
               <div>
                 <h3 class="font-display text-base font-bold text-[var(--ink)]">Smart Controls</h3>
-                <p class="text-xs text-[var(--muted)]">Real-time guardrails for your budget</p>
+                <p class="text-xs text-[var(--muted)]">Real-time protection &amp; currency display toggles</p>
               </div>
               <div id="smart-controls-list" class="divide-y divide-[var(--line)]"></div>
             </div>
           </div>
         </section>
 
-        <!-- ==================== VIEW 3: TRANSACTIONS ==================== -->
+        <!-- ==================== VIEW 5: TRANSACTIONS ==================== -->
         <section id="view-transactions" class="app-view space-y-6">
-          <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
+          <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-4">
             <div>
-              <h1 class="font-display text-2xl sm:text-3xl font-bold text-[var(--ink)]">Transaction <span class="grad">Ledger</span></h1>
-              <p class="text-sm text-[var(--muted)] mt-1">Searchable PHP &amp; USD ledger with original conversion details.</p>
+              <h2 class="font-display text-2xl font-bold text-[var(--ink)]">Transaction <span class="grad">Ledger</span></h2>
+              <p class="text-sm text-[var(--muted)] mt-0.5">Searchable PHP &amp; USD ledger with original FX rate badges.</p>
             </div>
 
             <div class="flex flex-wrap items-center gap-2.5">
-              <div class="inline-flex p-1 rounded-xl border border-[var(--line)] bg-[var(--surface-glass)]" id="tx-type-filters">
-                <button data-txfilter="all" class="tx-filter-btn active px-3 py-1.5 rounded-lg text-xs font-semibold">All</button>
-                <button data-txfilter="income" class="tx-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold">Income</button>
-                <button data-txfilter="expense" class="tx-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold">Expense</button>
+              <!-- Search Input -->
+              <div class="relative min-w-[200px] flex-1 sm:flex-initial">
+                <svg class="w-4 h-4 text-[var(--muted)] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                <input id="tx-search-input" type="text" placeholder="Search description..." class="field-input w-full pl-9 pr-3 py-2 rounded-xl text-xs" />
               </div>
 
-              <select id="tx-currency-filter" class="field-input px-3 py-2 rounded-xl text-xs font-medium">
-                <option value="all">All Currencies</option>
-                <option value="PHP">PHP (₱) Only</option>
-                <option value="USD">USD ($) Only</option>
-              </select>
+              <!-- GSAP Elastic Horizontal Filter Pills -->
+              <div id="tx-filter-bar" class="pill-track inline-flex p-1 rounded-xl border border-[var(--line)]" style="background: color-mix(in srgb, var(--surface) 78%, transparent);">
+                <div id="tx-filter-pill" class="elastic-pill-solid"></div>
+                <button data-txfilter="all" class="seg-btn active px-3 py-1.5 rounded-[10px] text-xs font-semibold">All</button>
+                <button data-txfilter="income" class="seg-btn px-3 py-1.5 rounded-[10px] text-xs font-semibold">Income</button>
+                <button data-txfilter="expense" class="seg-btn px-3 py-1.5 rounded-[10px] text-xs font-semibold">Expense</button>
+                <button data-txfilter="usd" class="seg-btn px-3 py-1.5 rounded-[10px] text-xs font-semibold whitespace-nowrap">USD Only</button>
+              </div>
 
-              <button onclick="exportCSV()" class="btn-outline px-3.5 py-2 rounded-xl text-xs">
-                Export CSV
-              </button>
+              <!-- Category Filter Dropdown -->
+              <select id="tx-cat-filter" class="field-input px-3 py-2 rounded-xl text-xs font-medium">
+                <option value="all">All Categories</option>
+              </select>
             </div>
           </div>
 
@@ -826,10 +1094,10 @@
               <table class="w-full text-left border-collapse">
                 <thead>
                   <tr class="border-b border-[var(--line)] text-[11px] uppercase tracking-wider text-[var(--muted)]" style="background: color-mix(in srgb, var(--surface) 60%, transparent);">
-                    <th class="py-3.5 px-5 font-semibold">Transaction</th>
+                    <th class="py-3.5 px-5 font-semibold">Date</th>
+                    <th class="py-3.5 px-4 font-semibold">Description</th>
                     <th class="py-3.5 px-4 font-semibold">Category</th>
                     <th class="py-3.5 px-4 font-semibold hidden md:table-cell">Wallet</th>
-                    <th class="py-3.5 px-4 font-semibold">Date</th>
                     <th class="py-3.5 px-5 font-semibold text-right">Amount (PHP)</th>
                     <th class="py-3.5 px-4 font-semibold text-right">Action</th>
                   </tr>
@@ -843,8 +1111,8 @@
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M7 16V4m0 0L3 8m4-4 4 4M17 8v12m0 0 4-4m-4 4-4-4"/></svg>
               </div>
               <div>
-                <p class="font-display font-bold text-[var(--ink)] text-sm">No transactions recorded</p>
-                <p class="text-xs text-[var(--muted)] mt-1">Start fresh by logging your first USD payout or PHP expense.</p>
+                <p class="font-display font-bold text-[var(--ink)] text-sm">No transactions found</p>
+                <p class="text-xs text-[var(--muted)] mt-1">Start cleanly by logging your first USD payout or PHP expense.</p>
               </div>
               <div class="flex items-center justify-center gap-2.5 pt-1">
                 <button onclick="openTransactionModal('income')" class="btn-primary px-4 py-2 rounded-xl text-xs">+ Log USD Payout</button>
@@ -854,103 +1122,15 @@
           </div>
         </section>
 
-        <!-- ==================== VIEW 4: INSIGHTS ==================== -->
-        <section id="view-insights" class="app-view space-y-6">
-          <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-            <div>
-              <h1 class="font-display text-2xl sm:text-3xl font-bold text-[var(--ink)]">Analytics &amp; <span class="grad">Insights</span></h1>
-              <p class="text-sm text-[var(--muted)] mt-1">Breakdown of your USD inflows, PHP spending, and category trends.</p>
-            </div>
-
-            <div class="subtab-bar inline-flex items-center gap-6 border-b border-[var(--line)] pb-2 self-start" id="insights-subtabs">
-              <button data-subtab="overview" class="insights-subtab-btn active text-sm font-semibold text-[var(--accent)] pb-1 transition">Overview</button>
-              <button data-subtab="spending" class="insights-subtab-btn text-sm font-semibold text-[var(--muted)] hover:text-[var(--ink)] pb-1 transition">Spending</button>
-              <div id="insights-subtab-indicator"></div>
-            </div>
-          </div>
-
-          <!-- Sub-tab 1: Overview -->
-          <div id="insights-panel-overview" class="space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div class="glass-card p-5">
-                <p class="text-xs text-[var(--muted)]">USD Inflows (Converted)</p>
-                <p id="ins-usd-inflow-php" class="font-display text-2xl font-bold text-[var(--accent)] tabular-nums mt-1.5">₱0.00</p>
-                <p id="ins-usd-inflow-orig" class="text-xs text-[var(--muted)] tabular-nums mt-1">$0.00 USD total</p>
-              </div>
-              <div class="glass-card p-5">
-                <p class="text-xs text-[var(--muted)]">Local PHP Inflows</p>
-                <p id="ins-php-inflow" class="font-display text-2xl font-bold text-[var(--ink)] tabular-nums mt-1.5">₱0.00</p>
-                <p class="text-xs text-[var(--muted)] mt-1">Logged directly in PHP</p>
-              </div>
-              <div class="glass-card p-5">
-                <p class="text-xs text-[var(--muted)]">Average Effective USD Rate</p>
-                <p id="ins-avg-rate" class="font-display text-2xl font-bold grad tabular-nums mt-1.5">₱58.00</p>
-                <p class="text-xs text-[var(--muted)] mt-1">Weighted across USD entries</p>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-              <div class="lg:col-span-7 glass-card p-5 sm:p-6">
-                <h3 class="font-display text-base font-bold text-[var(--ink)]">Income vs. Expense Trend</h3>
-                <p class="text-xs text-[var(--muted)] mb-4">Grouped by date in PHP (₱)</p>
-                <div class="relative h-64">
-                  <canvas id="insightsTrendChart"></canvas>
-                  <div id="insights-trend-empty" class="hidden absolute inset-0 flex items-center justify-center text-xs text-[var(--muted)] rounded-xl border border-dashed border-[var(--line)]" style="background: color-mix(in srgb, var(--bg) 55%, transparent);">
-                    Add transactions to see your Income vs. Expense trend line.
-                  </div>
-                </div>
-              </div>
-
-              <div class="lg:col-span-5 glass-card p-5 sm:p-6">
-                <h3 class="font-display text-base font-bold text-[var(--ink)]">USD vs. PHP Inflow Mix</h3>
-                <p class="text-xs text-[var(--muted)] mb-4">Share of total income by source currency</p>
-                <div class="relative h-64">
-                  <canvas id="insightsCurrencyChart"></canvas>
-                  <div id="insights-currency-empty" class="hidden absolute inset-0 flex items-center justify-center text-xs text-[var(--muted)] rounded-xl border border-dashed border-[var(--line)]" style="background: color-mix(in srgb, var(--bg) 55%, transparent);">
-                    Log income in USD or PHP to see your currency mix.
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Sub-tab 2: Spending -->
-          <div id="insights-panel-spending" class="hidden space-y-6">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-              <div class="lg:col-span-7 glass-card p-5 sm:p-6">
-                <div class="flex items-center justify-between mb-5">
-                  <div>
-                    <h3 class="font-display text-base font-bold text-[var(--ink)]">Spending by Category</h3>
-                    <p class="text-xs text-[var(--muted)]">Proportion of total PHP expenses</p>
-                  </div>
-                  <span id="spending-total-badge" class="text-xs font-semibold text-[var(--accent)] tabular-nums">₱0.00 total</span>
-                </div>
-                <div id="insights-category-bars" class="space-y-4"></div>
-              </div>
-
-              <div class="lg:col-span-5 glass-card p-5 sm:p-6">
-                <h3 class="font-display text-base font-bold text-[var(--ink)]">Expenses by Currency</h3>
-                <p class="text-xs text-[var(--muted)] mb-4">Local PHP spending vs. USD subscriptions</p>
-                <div class="relative h-60">
-                  <canvas id="insightsExpenseCurrencyChart"></canvas>
-                  <div id="insights-exp-cur-empty" class="hidden absolute inset-0 flex items-center justify-center text-xs text-[var(--muted)] rounded-xl border border-dashed border-[var(--line)]" style="background: color-mix(in srgb, var(--bg) 55%, transparent);">
-                    No expenses logged yet.
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- ==================== VIEW 5: BUDGETS ==================== -->
+        <!-- ==================== VIEW 6: BUDGETS ==================== -->
         <section id="view-budgets" class="app-view space-y-6">
           <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
             <div>
-              <h1 class="font-display text-2xl sm:text-3xl font-bold text-[var(--ink)]">Monthly <span class="grad">Budgets</span></h1>
-              <p class="text-sm text-[var(--muted)] mt-1">Customize PHP category limits. All categories start cleanly at ₱0 spent.</p>
+              <h2 class="font-display text-2xl font-bold text-[var(--ink)]">Monthly <span class="grad">Budgets</span></h2>
+              <p class="text-sm text-[var(--muted)] mt-0.5">Set inline PHP limits per category. Progress bars shift indigo → gold (80%) → coral (100%).</p>
             </div>
-            <div class="flex items-center gap-3">
-              <div class="px-3.5 py-2 rounded-xl border border-[var(--line)] bg-[var(--surface-glass)] text-xs text-[var(--muted)]">
+            <div class="flex items-center gap-3 flex-wrap">
+              <div class="px-3.5 py-2 rounded-xl border border-[var(--line)] text-xs text-[var(--muted)]" style="background: color-mix(in srgb, var(--surface) 78%, transparent);">
                 Allocated: <strong id="budgets-total-allocated" class="text-[var(--accent)] tabular-nums ml-1">₱0.00</strong>
               </div>
               <button onclick="openAddCategoryModal()" class="btn-primary px-3.5 py-2 rounded-xl text-xs whitespace-nowrap">
@@ -959,38 +1139,34 @@
             </div>
           </div>
 
-          <div id="budgets-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5"></div>
+          <div id="budgets-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4"></div>
         </section>
 
       </main>
     </div>
   </div>
 
-  <!-- ==================== ADD TRANSACTION MODAL ==================== -->
+  <!-- ==================== MODAL 1: ADD TRANSACTION ==================== -->
   <div id="tx-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/65 backdrop-blur-md">
     <div class="glass-modal w-full max-w-md p-6 relative max-h-[92vh] overflow-y-auto">
       <div class="flex items-center justify-between mb-4">
         <div>
           <h2 class="font-display text-lg font-bold text-[var(--ink)]">Add Transaction</h2>
-          <p class="text-xs text-[var(--muted)]">Log in PHP (₱) or USD ($) with live conversion</p>
+          <p class="text-xs text-[var(--muted)]">Log in PHP (₱) or USD ($) with live FX conversion</p>
         </div>
-        <button onclick="closeTransactionModal()" class="p-2 rounded-xl text-[var(--muted)] hover:text-[var(--ink)] transition" aria-label="Close modal">
+        <button onclick="closeModal('tx-modal')" class="p-2 rounded-xl text-[var(--muted)] hover:text-[var(--ink)]" aria-label="Close modal">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
 
       <form id="tx-form" class="space-y-4">
-        <!-- Type Segmented Control -->
+        <!-- Type Toggle -->
         <div class="grid grid-cols-2 gap-2 p-1 rounded-xl border border-[var(--line)] bg-[var(--input-bg)]">
-          <button type="button" id="modal-type-expense" onclick="setModalType('expense')" class="py-2 rounded-lg text-xs font-semibold transition">
-            Expense
-          </button>
-          <button type="button" id="modal-type-income" onclick="setModalType('income')" class="py-2 rounded-lg text-xs font-semibold transition">
-            Income
-          </button>
+          <button type="button" id="modal-type-expense" onclick="setModalType('expense')" class="py-2 rounded-lg text-xs font-semibold transition">Expense</button>
+          <button type="button" id="modal-type-income" onclick="setModalType('income')" class="py-2 rounded-lg text-xs font-semibold transition">Income</button>
         </div>
 
-        <!-- Currency Toggle + Amount Input -->
+        <!-- Currency Toggle + Amount -->
         <div>
           <div class="flex items-center justify-between mb-1.5">
             <label class="text-xs font-medium text-[var(--muted)]">Amount &amp; Currency</label>
@@ -1005,10 +1181,10 @@
           </div>
         </div>
 
-        <!-- USD Live Conversion Box -->
+        <!-- USD Live FX Override & Preview -->
         <div id="usd-conversion-box" class="hidden p-3.5 rounded-xl border space-y-2.5" style="background: color-mix(in srgb, var(--accent) 10%, transparent); border-color: color-mix(in srgb, var(--accent) 35%, transparent);">
           <div class="flex items-center justify-between gap-2 text-xs">
-            <span class="text-[var(--ink)] font-medium">Exchange Rate (1 USD → PHP)</span>
+            <span class="text-[var(--ink)] font-medium">FX Rate Override (1 USD → PHP)</span>
             <div class="flex items-center gap-1">
               <span class="text-[var(--accent)] font-semibold">₱</span>
               <input id="tx-custom-rate" type="number" step="0.01" min="1" class="field-input w-20 px-2 py-1 rounded-lg text-right font-display font-bold text-[var(--accent)] tabular-nums text-xs" />
@@ -1016,12 +1192,12 @@
           </div>
           <div class="flex items-center justify-between text-xs pt-1.5 border-t border-[var(--line)]">
             <span class="text-[var(--muted)]">Converted Total</span>
-            <span id="tx-conversion-preview" class="font-display font-bold text-[var(--accent)] tabular-nums">$0.00 × ₱58.00 = ₱0.00</span>
+            <span id="tx-conversion-preview" class="font-display font-bold text-[var(--accent)] tabular-nums">= ₱0.00</span>
           </div>
         </div>
 
         <div>
-          <label class="block text-xs font-medium text-[var(--muted)] mb-1.5">Description</label>
+          <label class="block text-xs font-medium text-[var(--muted)] mb-1.5">Description / Note</label>
           <input id="tx-desc" type="text" required placeholder="e.g., GHL Retainer Payout, Meralco Bill, Groceries" class="field-input w-full px-4 py-2.5 rounded-xl text-sm" />
         </div>
 
@@ -1042,26 +1218,88 @@
         </div>
 
         <div class="pt-2 flex items-center justify-end gap-2.5">
-          <button type="button" onclick="closeTransactionModal()" class="btn-outline px-4 py-2.5 rounded-xl text-xs">Cancel</button>
+          <button type="button" onclick="closeModal('tx-modal')" class="btn-outline px-4 py-2.5 rounded-xl text-xs">Cancel</button>
           <button type="submit" class="btn-primary px-5 py-2.5 rounded-xl text-xs">Save Transaction</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- ==================== ADD BUDGET CATEGORY MODAL ==================== -->
+  <!-- ==================== MODAL 2: ADD RECURRING BILL / PAYOUT ==================== -->
+  <div id="recurring-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/65 backdrop-blur-md">
+    <div class="glass-modal w-full max-w-md p-6 relative max-h-[92vh] overflow-y-auto">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h2 class="font-display text-lg font-bold text-[var(--ink)]">Add Recurring Item</h2>
+          <p class="text-xs text-[var(--muted)]">Schedule a monthly bill or expected USD/PHP payout</p>
+        </div>
+        <button onclick="closeModal('recurring-modal')" class="p-2 rounded-xl text-[var(--muted)] hover:text-[var(--ink)]" aria-label="Close modal">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <form id="recurring-form" class="space-y-4">
+        <div class="grid grid-cols-2 gap-2 p-1 rounded-xl border border-[var(--line)] bg-[var(--input-bg)]">
+          <button type="button" id="rec-type-bill" onclick="setRecModalType('bill')" class="py-2 rounded-lg text-xs font-semibold transition">Bill / Subscription</button>
+          <button type="button" id="rec-type-payout" onclick="setRecModalType('payout')" class="py-2 rounded-lg text-xs font-semibold transition">Expected Payout</button>
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-[var(--muted)] mb-1.5">Name</label>
+          <input id="rec-name" type="text" required placeholder="e.g., PLDT Fiber, Rent, Client Retainer" class="field-input w-full px-4 py-2.5 rounded-xl text-sm" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-medium text-[var(--muted)] mb-1.5">Currency</label>
+            <select id="rec-currency" class="field-input w-full px-3 py-2.5 rounded-xl text-sm">
+              <option value="PHP">PHP (₱)</option>
+              <option value="USD">USD ($)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-[var(--muted)] mb-1.5">Amount</label>
+            <input id="rec-amount" type="number" step="0.01" min="0.01" required placeholder="0.00" class="field-input w-full px-3.5 py-2.5 rounded-xl text-sm font-display font-bold tabular-nums" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-medium text-[var(--muted)] mb-1.5">Day of Month (1–31)</label>
+            <input id="rec-day" type="number" min="1" max="31" required value="15" class="field-input w-full px-3.5 py-2.5 rounded-xl text-sm tabular-nums" />
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-[var(--muted)] mb-1.5">Category</label>
+            <select id="rec-category" class="field-input w-full px-3 py-2.5 rounded-xl text-sm"></select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-[var(--muted)] mb-1.5">Default Wallet</label>
+          <select id="rec-wallet" class="field-input w-full px-3 py-2.5 rounded-xl text-sm"></select>
+        </div>
+
+        <div class="pt-2 flex items-center justify-end gap-2.5">
+          <button type="button" onclick="closeModal('recurring-modal')" class="btn-outline px-4 py-2.5 rounded-xl text-xs">Cancel</button>
+          <button type="submit" class="btn-primary px-5 py-2.5 rounded-xl text-xs">Save Schedule</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 3: ADD BUDGET CATEGORY ==================== -->
   <div id="category-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/65 backdrop-blur-md">
     <div class="glass-modal w-full max-w-sm p-6 space-y-4">
       <div class="flex items-center justify-between">
         <h3 class="font-display text-base font-bold text-[var(--ink)]">Add Budget Category</h3>
-        <button onclick="closeAddCategoryModal()" class="p-1.5 rounded-lg text-[var(--muted)] hover:text-[var(--ink)]">
+        <button onclick="closeModal('category-modal')" class="p-1.5 rounded-lg text-[var(--muted)] hover:text-[var(--ink)]">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
       <form id="category-form" class="space-y-3.5">
         <div>
           <label class="block text-xs font-medium text-[var(--muted)] mb-1">Category Name</label>
-          <input id="new-cat-name" type="text" required placeholder="e.g., Travel, Investments, Health" class="field-input w-full px-3.5 py-2 rounded-xl text-sm" />
+          <input id="new-cat-name" type="text" required placeholder="e.g., Health, Travel, Investments" class="field-input w-full px-3.5 py-2 rounded-xl text-sm" />
         </div>
         <div class="grid grid-cols-3 gap-3">
           <div>
@@ -1074,14 +1312,14 @@
           </div>
         </div>
         <div class="flex justify-end gap-2 pt-2">
-          <button type="button" onclick="closeAddCategoryModal()" class="btn-outline px-3.5 py-2 rounded-xl text-xs">Cancel</button>
+          <button type="button" onclick="closeModal('category-modal')" class="btn-outline px-3.5 py-2 rounded-xl text-xs">Cancel</button>
           <button type="submit" class="btn-primary px-4 py-2 rounded-xl text-xs">Add Category</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- ==================== CLEAR ALL DATA CONFIRM MODAL ==================== -->
+  <!-- ==================== MODAL 4: CLEAR ALL DATA CONFIRMATION ==================== -->
   <div id="clear-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/65 backdrop-blur-md">
     <div class="glass-modal w-full max-w-sm p-6 text-center space-y-4">
       <div class="w-12 h-12 mx-auto rounded-2xl flex items-center justify-center border" style="background: color-mix(in srgb, var(--danger) 14%, transparent); border-color: color-mix(in srgb, var(--danger) 38%, transparent); color: var(--danger);">
@@ -1090,11 +1328,11 @@
       <div>
         <h3 class="font-display text-lg font-bold text-[var(--ink)]">Clear All Data?</h3>
         <p class="text-xs text-[var(--muted)] mt-1.5 leading-relaxed">
-          This will permanently wipe all transactions, wallet balances, budget limits, and custom settings back to <strong class="text-[var(--ink)]">₱0.00</strong>.
+          This will permanently wipe all transactions, recurring bills, wallet balances, and budget limits back to <strong class="text-[var(--ink)]">₱0.00</strong>.
         </p>
       </div>
       <div class="flex items-center justify-center gap-3 pt-2">
-        <button onclick="closeClearDataModal()" class="btn-outline px-4 py-2.5 rounded-xl text-xs">Cancel</button>
+        <button onclick="closeModal('clear-modal')" class="btn-outline px-4 py-2.5 rounded-xl text-xs">Cancel</button>
         <button onclick="confirmClearAllData()" class="px-4 py-2.5 rounded-xl text-xs font-semibold text-white transition" style="background: var(--danger);">Yes, Wipe Everything</button>
       </div>
     </div>
@@ -1108,11 +1346,11 @@
     /*************************************************************************
      * 1. CLEAN INITIAL STATE (₱0.00 START) & LOCALSTORAGE PERSISTENCE
      *************************************************************************/
-    const STORAGE_KEY = 'loomwell_budget_php_v1';
+    const STORAGE_KEY = 'loomwell_budget_v2';
 
-    const DEFAULT_INCOME_CATEGORIES = [
-      { id: 'USD Payout / Retainer', icon: '💵' },
-      { id: 'Freelance / GHL Project', icon: '⚡' },
+    const INCOME_CATEGORIES = [
+      { id: 'USD Client Retainer', icon: '💵' },
+      { id: 'GHL / Automation Project', icon: '⚡' },
       { id: 'Local PHP Income', icon: '🏦' },
       { id: 'Other Income', icon: '✨' },
     ];
@@ -1122,43 +1360,51 @@
         exchangeRate: 58.00,
         monthlyCap: 0,
         controls: {
-          strictAlerts: true,
           freezeDiscretionary: false,
-          usdPayoutDefault: true,
+          autoConvertUsdDisplay: true,
         },
         wallets: [
-          { id: 'main_php', name: 'Main PHP Wallet', subtitle: 'Local Bank / E-Wallet', number: '•••• •••• •••• 1042', theme: 'virtual-card-indigo' },
-          { id: 'usd_payout', name: 'USD Payout Vault', subtitle: 'Wise / PayPal / Remit', number: '•••• •••• •••• 5800', theme: 'virtual-card-coral' },
-          { id: 'discretionary', name: 'Discretionary Card', subtitle: 'Everyday & Wants', number: '•••• •••• •••• 9214', theme: 'virtual-card-midnight' },
+          { id: 'main_bank', name: 'Main Bank (PHP)', subtitle: 'BPI / BDO / UnionBank', number: '•••• •••• •••• 1042', theme: 'vc-indigo' },
+          { id: 'usd_wise', name: 'USD Wise/PayPal', subtitle: 'Client Payouts Vault', number: '•••• •••• •••• 5800', theme: 'vc-coral' },
+          { id: 'discretionary', name: 'Discretionary Card', subtitle: 'Everyday & Wants', number: '•••• •••• •••• 9214', theme: 'vc-night' },
+          { id: 'cash_gcash', name: 'Cash / GCash', subtitle: 'Liquid Daily Wallet', number: '•••• •••• •••• 7731', theme: 'vc-gold' },
         ],
         expenseCategories: [
-          { id: 'Housing/Bills', icon: '🏠', limit: 0 },
+          { id: 'Housing & Rent', icon: '🏠', limit: 0 },
           { id: 'Food & Groceries', icon: '🍽️', limit: 0 },
-          { id: 'Baby & Family', icon: '👶', limit: 0 },
+          { id: 'Utilities & Internet', icon: '💡', limit: 0 },
           { id: 'Transport', icon: '🚗', limit: 0 },
-          { id: 'Subscriptions/Tools', icon: '⚙️', limit: 0 },
-          { id: 'Savings', icon: '🛡️', limit: 0 },
-          { id: 'Discretionary', icon: '✨', limit: 0 },
+          { id: 'Business / Ops', icon: '⚙️', limit: 0 },
+          { id: 'Baby & Family', icon: '👶', limit: 0 },
+          { id: 'Subscriptions', icon: '🔁', limit: 0 },
+          { id: 'Personal & Fun', icon: '✨', limit: 0 },
         ],
         transactions: [],
+        recurring: [],
       };
     }
 
     let appState = loadState();
     let currentView = 'overview';
-    let currentInsightsSubtab = 'overview';
-    let txTypeFilter = 'all';
-    let txCurrencyFilter = 'all';
-    let searchQuery = '';
+    let currentCashflowSubtab = 'monthly';
+    let txFilter = 'all';
+    let txCatFilter = 'all';
+    let txSearchQuery = '';
     let modalType = 'expense';
     let modalCurrency = 'PHP';
+    let recModalType = 'bill';
 
+    // Calendar viewing state
+    const todayDate = new Date();
+    let calYear = todayDate.getFullYear();
+    let calMonth = todayDate.getMonth();
+    let selectedCalendarDay = null;
+
+    // Chart.js registry
     const charts = {
-      overviewCashflow: null,
-      overviewCategory: null,
-      insightsTrend: null,
-      insightsCurrency: null,
-      insightsExpCurrency: null,
+      overviewBalance: null,
+      cashflowMonthly: null,
+      cashflowForecast: null,
     };
 
     function loadState() {
@@ -1167,6 +1413,7 @@
         if (!raw) return createCleanState();
         const parsed = JSON.parse(raw);
         if (!Array.isArray(parsed.transactions) || !Array.isArray(parsed.wallets)) return createCleanState();
+        if (!Array.isArray(parsed.recurring)) parsed.recurring = [];
         return parsed;
       } catch (e) {
         return createCleanState();
@@ -1182,7 +1429,7 @@
     }
 
     /*************************************************************************
-     * 2. THEME HELPERS (SYNCS WITH PORTFOLIO 'theme' KEY & UPDATES CHARTS)
+     * 2. THEME & COLOR TOKENS (SYNCS WITH PORTFOLIO localStorage.theme)
      *************************************************************************/
     function getThemeTokens() {
       const cs = getComputedStyle(document.documentElement);
@@ -1196,7 +1443,8 @@
         accent: get('--accent'),
         g2: get('--g2'),
         mark: get('--mark'),
-        success: get('--success'),
+        income: get('--income'),
+        expense: get('--expense'),
         danger: get('--danger'),
       };
     }
@@ -1213,145 +1461,202 @@
     }
 
     /*************************************************************************
-     * 3. CURRENCY FORMATTING & FINANCIAL COMPUTATIONS
+     * 3. FORMATTERS & CORE FINANCIAL METRICS ENGINE
      *************************************************************************/
     function fmtPHP(val, decimals = 2) {
-      const sign = val < 0 ? '-' : '';
-      return sign + '₱' + Math.abs(val).toLocaleString('en-PH', {
+      const n = Number(val) || 0;
+      const sign = n < 0 ? '-' : '';
+      return sign + '₱' + Math.abs(n).toLocaleString('en-PH', {
         minimumFractionDigits: decimals,
         maximumFractionDigits: decimals,
       });
     }
 
     function fmtUSD(val, decimals = 2) {
-      const sign = val < 0 ? '-' : '';
-      return sign + '$' + Math.abs(val).toLocaleString('en-US', {
+      const n = Number(val) || 0;
+      const sign = n < 0 ? '-' : '';
+      return sign + '$' + Math.abs(n).toLocaleString('en-US', {
         minimumFractionDigits: decimals,
         maximumFractionDigits: decimals,
       });
     }
 
+    function getCurrentMonthKey() {
+      const d = new Date();
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+    }
+
+    function getOrdinal(n) {
+      const s = ['th', 'st', 'nd', 'rd'];
+      const v = n % 100;
+      return n + (s[(v - 20) % 10] || s[v] || s[0]);
+    }
+
+    function formatShortDate(iso) {
+      const d = new Date(iso + 'T00:00:00');
+      if (isNaN(d)) return iso;
+      return d.toLocaleDateString('en-PH', { month: 'short', day: 'numeric' });
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+    }
+
     function getCategoryMeta(catId) {
       const exp = appState.expenseCategories.find(c => c.id === catId);
       if (exp) return exp;
-      const inc = DEFAULT_INCOME_CATEGORIES.find(c => c.id === catId);
+      const inc = INCOME_CATEGORIES.find(c => c.id === catId);
       if (inc) return inc;
       return { id: catId, icon: '💳', limit: 0 };
     }
 
+    function getRecurringPHPAmount(item) {
+      const amt = Number(item.amount) || 0;
+      const rate = appState.exchangeRate > 0 ? appState.exchangeRate : 58;
+      return item.currency === 'USD' ? amt * rate : amt;
+    }
+
     function computeMetrics() {
-      let totalIncomePHP = 0;
-      let totalExpensesPHP = 0;
+      const currentMonth = getCurrentMonthKey();
+      let totalInflow = 0;
+      let totalOutflow = 0;
+      let openingBalance = 0;
+      let monthlyIncome = 0;
+      let monthlyExpenses = 0;
+      let monthlyIncomeCount = 0;
+      let monthlyExpenseCount = 0;
       let usdInflowOrig = 0;
       let usdInflowPHP = 0;
-      let phpInflowOnly = 0;
-      let usdExpensePHP = 0;
-      let phpExpensePHP = 0;
 
       const walletBalances = {};
       appState.wallets.forEach(w => { walletBalances[w.id] = 0; });
 
-      const byCategory = {};
-      appState.expenseCategories.forEach(c => { byCategory[c.id] = 0; });
+      const monthlyByCategory = {};
+      appState.expenseCategories.forEach(c => { monthlyByCategory[c.id] = 0; });
 
       appState.transactions.forEach(tx => {
-        const phpAmt = Number(tx.amountPHP) || 0;
+        const php = Number(tx.amountPHP) || 0;
+        const isCurrentMonth = (tx.date || '').slice(0, 7) === currentMonth;
+        const isPriorMonth = (tx.date || '').slice(0, 7) < currentMonth;
+
         if (tx.type === 'income') {
-          totalIncomePHP += phpAmt;
-          walletBalances[tx.walletId] = (walletBalances[tx.walletId] || 0) + phpAmt;
+          totalInflow += php;
+          walletBalances[tx.walletId] = (walletBalances[tx.walletId] || 0) + php;
+          if (isPriorMonth) openingBalance += php;
+          if (isCurrentMonth) {
+            monthlyIncome += php;
+            monthlyIncomeCount++;
+          }
           if (tx.currency === 'USD') {
             usdInflowOrig += Number(tx.originalAmount) || 0;
-            usdInflowPHP += phpAmt;
-          } else {
-            phpInflowOnly += phpAmt;
+            usdInflowPHP += php;
           }
         } else {
-          totalExpensesPHP += phpAmt;
-          walletBalances[tx.walletId] = (walletBalances[tx.walletId] || 0) - phpAmt;
-          byCategory[tx.category] = (byCategory[tx.category] || 0) + phpAmt;
-          if (tx.currency === 'USD') usdExpensePHP += phpAmt;
-          else phpExpensePHP += phpAmt;
+          totalOutflow += php;
+          walletBalances[tx.walletId] = (walletBalances[tx.walletId] || 0) - php;
+          if (isPriorMonth) openingBalance -= php;
+          if (isCurrentMonth) {
+            monthlyExpenses += php;
+            monthlyExpenseCount++;
+            monthlyByCategory[tx.category] = (monthlyByCategory[tx.category] || 0) + php;
+          }
         }
       });
 
-      const totalBalancePHP = Object.values(walletBalances).reduce((a, b) => a + b, 0);
+      const totalBalance = Object.values(walletBalances).reduce((a, b) => a + b, 0);
       const rate = appState.exchangeRate > 0 ? appState.exchangeRate : 58;
-      const totalBalanceUSD = totalBalancePHP / rate;
-      const netSavedPHP = totalIncomePHP - totalExpensesPHP;
-      const savingsRate = totalIncomePHP > 0 ? Math.max(0, (netSavedPHP / totalIncomePHP) * 100) : 0;
+      const totalBalanceUSD = totalBalance / rate;
+      const netCashFlow = totalInflow - totalOutflow;
+      const monthlyNetSaved = monthlyIncome - monthlyExpenses;
+      const savingsRate = monthlyIncome > 0 ? Math.max(0, (monthlyNetSaved / monthlyIncome) * 100) : 0;
       const avgUsdRate = usdInflowOrig > 0 ? (usdInflowPHP / usdInflowOrig) : rate;
 
+      // Recurring summary metrics
+      const unpaidBillsThisMonth = appState.recurring.filter(r => r.type === 'bill' && !(r.paidMonths || []).includes(currentMonth));
+      const unpaidBillsTotal = unpaidBillsThisMonth.reduce((sum, r) => sum + getRecurringPHPAmount(r), 0);
+
+      // Bills due in next 7 days
+      const now = new Date();
+      let dueNext7Total = 0;
+      let dueNext7Count = 0;
+      for (let i = 0; i <= 7; i++) {
+        const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() + i);
+        const dayNum = d.getDate();
+        const mKey = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+        appState.recurring.forEach(r => {
+          if (r.type === 'bill' && Number(r.dayOfMonth) === dayNum && !(r.paidMonths || []).includes(mKey)) {
+            dueNext7Total += getRecurringPHPAmount(r);
+            dueNext7Count++;
+          }
+        });
+      }
+
       return {
-        totalIncomePHP,
-        totalExpensesPHP,
-        totalBalancePHP,
+        totalBalance,
         totalBalanceUSD,
-        netSavedPHP,
+        totalInflow,
+        totalOutflow,
+        openingBalance,
+        netCashFlow,
+        monthlyIncome,
+        monthlyExpenses,
+        monthlyIncomeCount,
+        monthlyExpenseCount,
+        monthlyNetSaved,
         savingsRate,
-        usdInflowOrig,
-        usdInflowPHP,
-        phpInflowOnly,
-        usdExpensePHP,
-        phpExpensePHP,
         avgUsdRate,
+        hasUsdInflow: usdInflowOrig > 0,
         walletBalances,
-        byCategory,
+        monthlyByCategory,
+        unpaidBillsCount: unpaidBillsThisMonth.length,
+        unpaidBillsTotal,
+        dueNext7Total,
+        dueNext7Count,
       };
     }
 
     /*************************************************************************
-     * 4. GSAP MOTION: ELASTIC PILL, ROLLING COUNTERS & VIEW TRANSITIONS
+     * 4. GSAP MOTION: ELASTIC CLIP-PATH PILLS, COUNTERS & SKELETON SHIMMER
      *************************************************************************/
-    const pillState = { t: 0, r: 0, b: 0, l: 0 };
-    let pillReady = false;
+    const pillTrackers = {};
 
-    function getPillInsets(pill, target) {
+    function slideElasticPill(pillId, targetEl, axis = 'y', radius = 14, immediate = false) {
+      const pill = document.getElementById(pillId);
+      if (!pill || !targetEl || !pill.parentElement) return;
       const box = pill.parentElement;
-      return {
-        l: target.offsetLeft,
-        t: target.offsetTop,
-        r: box.offsetWidth - (target.offsetLeft + target.offsetWidth),
-        b: box.offsetHeight - (target.offsetTop + target.offsetHeight),
+      if (box.offsetWidth === 0 || box.offsetHeight === 0) return;
+
+      const to = {
+        l: targetEl.offsetLeft,
+        t: targetEl.offsetTop,
+        r: Math.max(0, box.offsetWidth - (targetEl.offsetLeft + targetEl.offsetWidth)),
+        b: Math.max(0, box.offsetHeight - (targetEl.offsetTop + targetEl.offsetHeight)),
       };
-    }
 
-    function applyPillClip(pill, c) {
-      pill.style.clipPath = `inset(${c.t}px ${c.r}px ${c.b}px ${c.l}px round 14px)`;
-    }
+      const paint = c => {
+        pill.style.clipPath = `inset(${c.t}px ${c.r}px ${c.b}px ${c.l}px round ${radius}px)`;
+      };
 
-    function slidePill(target, immediate = false) {
-      const pill = document.getElementById('sidebar-pill');
-      if (!pill || !target) return;
-      const to = getPillInsets(pill, target);
-
-      if (immediate || !pillReady) {
-        Object.assign(pillState, to);
-        applyPillClip(pill, pillState);
-        pillReady = true;
+      if (!pillTrackers[pillId] || immediate) {
+        pillTrackers[pillId] = { ...to };
+        paint(pillTrackers[pillId]);
         return;
       }
 
-      gsap.killTweensOf(pillState);
-      const fwd = to.t > pillState.t;
-      const [lead, trail] = fwd ? ['b', 't'] : ['t', 'b'];
-      const paint = () => applyPillClip(pill, pillState);
+      const state = pillTrackers[pillId];
+      gsap.killTweensOf(state);
 
-      gsap.to(pillState, {
-        [lead]: to[lead],
-        l: to.l,
-        r: to.r,
-        duration: 0.28,
-        ease: 'power3.out',
-        onUpdate: paint,
-      });
-
-      gsap.to(pillState, {
-        [trail]: to[trail],
-        duration: 0.44,
-        delay: 0.06,
-        ease: 'elastic.out(1, 0.78)',
-        onUpdate: paint,
-      });
+      if (axis === 'y') {
+        const fwd = to.t > state.t;
+        const [lead, trail] = fwd ? ['b', 't'] : ['t', 'b'];
+        gsap.to(state, { [lead]: to[lead], l: to.l, r: to.r, duration: 0.28, ease: 'power3.out', onUpdate: () => paint(state) });
+        gsap.to(state, { [trail]: to[trail], duration: 0.46, delay: 0.05, ease: 'elastic.out(1, 0.72)', onUpdate: () => paint(state) });
+      } else {
+        const fwd = to.l > state.l;
+        const [lead, trail] = fwd ? ['r', 'l'] : ['l', 'r'];
+        gsap.to(state, { [lead]: to[lead], t: to.t, b: to.b, duration: 0.26, ease: 'power3.out', onUpdate: () => paint(state) });
+        gsap.to(state, { [trail]: to[trail], duration: 0.46, delay: 0.05, ease: 'elastic.out(1, 0.72)', onUpdate: () => paint(state) });
+      }
     }
 
     function animateCounter(el, targetVal, opts = {}) {
@@ -1363,82 +1668,65 @@
       gsap.killTweensOf(obj);
       gsap.to(obj, {
         val: targetVal,
-        duration: 0.55,
+        duration: 0.52,
         ease: 'power3.out',
         onUpdate: () => {
           if (format === 'php') el.textContent = fmtPHP(obj.val, decimals);
           else if (format === 'usd') el.textContent = fmtUSD(obj.val, decimals);
           else el.textContent = obj.val.toFixed(decimals) + suffix;
         },
-        onComplete: () => {
-          el.dataset.val = targetVal;
-        }
+        onComplete: () => { el.dataset.val = targetVal; }
       });
     }
+
+    let shimmerTimer = null;
 
     function switchView(viewName) {
       if (currentView === viewName) {
         toggleMobileSidebar(false);
         return;
       }
+
       const prevEl = document.getElementById(`view-${currentView}`);
       const nextEl = document.getElementById(`view-${viewName}`);
+      const skeletonEl = document.getElementById('view-skeleton');
       if (!nextEl) return;
 
       document.querySelectorAll('#sidebar-nav .nav-item').forEach(btn => {
         const match = btn.dataset.view === viewName;
         btn.classList.toggle('active', match);
-        if (match) slidePill(btn);
+        if (match) slideElasticPill('sidebar-pill', btn, 'y', 14, false);
       });
 
       currentView = viewName;
       toggleMobileSidebar(false);
 
+      // Hide previous view & show crisp ~220ms frosted skeleton shimmer
       if (prevEl) prevEl.classList.remove('active');
-      nextEl.classList.add('active');
+      if (shimmerTimer) clearTimeout(shimmerTimer);
+      skeletonEl.classList.remove('hidden');
 
-      gsap.fromTo(
-        nextEl,
-        { opacity: 0, y: 12, filter: 'blur(6px)' },
-        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.38, ease: 'power3.out', clearProps: 'filter,transform' }
-      );
+      shimmerTimer = setTimeout(() => {
+        skeletonEl.classList.add('hidden');
+        nextEl.classList.add('active');
 
-      renderCurrentView();
-    }
+        renderCurrentView();
 
-    function switchInsightsSubtab(tabName, immediate = false) {
-      currentInsightsSubtab = tabName;
-      let activeBtn = null;
-      document.querySelectorAll('.insights-subtab-btn').forEach(btn => {
-        const match = btn.dataset.subtab === tabName;
-        btn.classList.toggle('active', match);
-        btn.style.color = match ? 'var(--accent)' : 'var(--muted)';
-        if (match) activeBtn = btn;
-      });
+        // Reposition horizontal elastic pills once target view is visible
+        if (viewName === 'cashflow') {
+          const activeCf = document.querySelector('#cashflow-subtabs .seg-btn.active');
+          if (activeCf) slideElasticPill('cashflow-subtab-pill', activeCf, 'x', 10, true);
+        } else if (viewName === 'transactions') {
+          const activeTx = document.querySelector('#tx-filter-bar .seg-btn.active');
+          if (activeTx) slideElasticPill('tx-filter-pill', activeTx, 'x', 10, true);
+        }
 
-      const indicator = document.getElementById('insights-subtab-indicator');
-      if (indicator && activeBtn) {
-        if (immediate) gsap.set(indicator, { left: activeBtn.offsetLeft, width: activeBtn.offsetWidth });
-        else gsap.to(indicator, { left: activeBtn.offsetLeft, width: activeBtn.offsetWidth, duration: 0.34, ease: 'power3.out' });
-      }
-
-      const pOverview = document.getElementById('insights-panel-overview');
-      const pSpending = document.getElementById('insights-panel-spending');
-      const targetPanel = tabName === 'overview' ? pOverview : pSpending;
-      const otherPanel = tabName === 'overview' ? pSpending : pOverview;
-
-      otherPanel.classList.add('hidden');
-      targetPanel.classList.remove('hidden');
-
-      if (!immediate) {
         gsap.fromTo(
-          targetPanel,
-          { opacity: 0, y: 8, filter: 'blur(4px)' },
-          { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.32, ease: 'power2.out', clearProps: 'filter,transform' }
+          nextEl,
+          { opacity: 0, y: 10, filter: 'blur(5px)' },
+          { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.34, ease: 'power3.out', clearProps: 'filter,transform' }
         );
-      }
-
-      renderInsightsView();
+      }, 220);
     }
 
     function bindTiltCards() {
@@ -1460,63 +1748,200 @@
     }
 
     /*************************************************************************
-     * 5. RENDERING VIEWS (THEME-AWARE)
+     * 5. HERO HEADER & VIEW RENDERERS
      *************************************************************************/
-    function renderCurrentView() {
+    function renderHeroHeader(m) {
+      const now = new Date();
+      const hour = now.getHours();
+      const period = hour < 12 ? 'Morning' : hour < 18 ? 'Afternoon' : 'Evening';
+      document.getElementById('hero-greeting').innerHTML = `${period}, <span class="grad">Japhette</span>`;
+      document.getElementById('hero-date').textContent = now.toLocaleDateString('en-US', {
+        weekday: 'long', month: 'short', day: 'numeric', year: 'numeric'
+      });
+
       document.getElementById('topbar-rate-input').value = appState.exchangeRate.toFixed(2);
-      if (currentView === 'overview') renderOverview();
-      else if (currentView === 'wallets') renderWalletsView();
-      else if (currentView === 'transactions') renderTransactionsView();
-      else if (currentView === 'insights') {
-        renderInsightsView();
-        const activeBtn = document.querySelector(`.insights-subtab-btn[data-subtab="${currentInsightsSubtab}"]`);
-        const indicator = document.getElementById('insights-subtab-indicator');
-        if (activeBtn && indicator) gsap.set(indicator, { left: activeBtn.offsetLeft, width: activeBtn.offsetWidth });
+
+      // Quick Status Pill
+      const dot = document.getElementById('hero-status-dot');
+      const txt = document.getElementById('hero-status-text');
+      if (m.unpaidBillsCount > 0) {
+        dot.style.background = 'var(--expense)';
+        txt.textContent = `${m.unpaidBillsCount} upcoming bill${m.unpaidBillsCount > 1 ? 's' : ''} · ${fmtPHP(m.unpaidBillsTotal, 0)} due`;
+      } else {
+        dot.style.background = 'var(--income)';
+        txt.textContent = 'All caught up · 0 bills due';
       }
-      else if (currentView === 'budgets') renderBudgetsView();
+
+      // Hero KPIs
+      animateCounter(document.getElementById('hero-total-balance'), m.totalBalance, { format: 'php' });
+      const usdEl = document.getElementById('hero-total-balance-usd');
+      usdEl.textContent = appState.controls.autoConvertUsdDisplay
+        ? `≈ ${fmtUSD(m.totalBalanceUSD)} USD (@ ₱${appState.exchangeRate.toFixed(2)})`
+        : 'USD conversion display hidden';
+
+      animateCounter(document.getElementById('hero-monthly-income'), m.monthlyIncome, { format: 'php' });
+      document.getElementById('hero-income-count').textContent = `${m.monthlyIncomeCount} payout${m.monthlyIncomeCount === 1 ? '' : 's'} this month`;
+
+      animateCounter(document.getElementById('hero-monthly-expenses'), m.monthlyExpenses, { format: 'php' });
+      document.getElementById('hero-expense-count').textContent = `${m.monthlyExpenseCount} expense${m.monthlyExpenseCount === 1 ? '' : 's'} this month`;
+
+      // Overbudget Alert
+      const alertBanner = document.getElementById('overbudget-alert-banner');
+      if (appState.monthlyCap > 0 && m.monthlyExpenses > appState.monthlyCap) {
+        alertBanner.classList.remove('hidden');
+      } else {
+        alertBanner.classList.add('hidden');
+      }
+    }
+
+    function renderCurrentView() {
+      const m = computeMetrics();
+      renderHeroHeader(m);
+
+      if (currentView === 'overview') renderOverview(m);
+      else if (currentView === 'cashflow') renderCashflowView(m);
+      else if (currentView === 'recurring') renderRecurringView(m);
+      else if (currentView === 'wallets') renderWalletsView(m);
+      else if (currentView === 'transactions') renderTransactionsView();
+      else if (currentView === 'budgets') renderBudgetsView(m);
     }
 
     // ---------- VIEW 1: OVERVIEW ----------
-    function renderOverview() {
-      const m = computeMetrics();
+    function renderOverview(m) {
+      const t = getThemeTokens();
 
-      const hour = new Date().getHours();
-      const greet = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
-      document.getElementById('greeting-title').innerHTML = `${greet}, <span class="grad">Japhette</span>`;
+      // 1. Balance & Cash Flow Area/Line Chart
+      const balEmpty = document.getElementById('overview-balance-empty');
+      if (charts.overviewBalance) { charts.overviewBalance.destroy(); charts.overviewBalance = null; }
 
-      animateCounter(document.getElementById('kpi-total-balance'), m.totalBalancePHP, { format: 'php' });
-      document.getElementById('kpi-total-balance-usd').textContent = `≈ ${fmtUSD(m.totalBalanceUSD)} USD (@ ₱${appState.exchangeRate.toFixed(2)})`;
-
-      animateCounter(document.getElementById('kpi-monthly-income'), m.totalIncomePHP, { format: 'php' });
-      document.getElementById('kpi-income-usd-note').textContent = `Includes ${fmtUSD(m.usdInflowOrig)} in USD payouts`;
-
-      animateCounter(document.getElementById('kpi-monthly-expenses'), m.totalExpensesPHP, { format: 'php' });
-      document.getElementById('kpi-cap-note').textContent = appState.monthlyCap > 0
-        ? `Cap: ${fmtPHP(appState.monthlyCap, 0)} (${Math.round((m.totalExpensesPHP / appState.monthlyCap) * 100)}%)`
-        : 'Cap: Not set (configure in Wallets)';
-
-      animateCounter(document.getElementById('kpi-savings-rate'), m.savingsRate, { format: 'num', decimals: 1, suffix: '%' });
-      document.getElementById('kpi-net-saved-note').textContent = `Net saved: ${fmtPHP(m.netSavedPHP)}`;
-
-      const alertEl = document.getElementById('overbudget-alert-banner');
-      if (appState.controls.strictAlerts && appState.monthlyCap > 0 && m.totalExpensesPHP > appState.monthlyCap) {
-        alertEl.classList.remove('hidden');
+      if (!appState.transactions.length) {
+        balEmpty.classList.remove('hidden');
       } else {
-        alertEl.classList.add('hidden');
+        balEmpty.classList.add('hidden');
+        const byDate = {};
+        appState.transactions.forEach(tx => {
+          const delta = tx.type === 'income' ? (Number(tx.amountPHP) || 0) : -(Number(tx.amountPHP) || 0);
+          byDate[tx.date] = (byDate[tx.date] || 0) + delta;
+        });
+        const sortedDates = Object.keys(byDate).sort();
+        let running = 0;
+        const points = sortedDates.map(d => { running += byDate[d]; return running; });
+
+        const ctx = document.getElementById('overviewBalanceChart').getContext('2d');
+        const grad = ctx.createLinearGradient(0, 0, 0, 250);
+        grad.addColorStop(0, t.accent + '55');
+        grad.addColorStop(1, t.accent + '00');
+
+        charts.overviewBalance = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: sortedDates.map(formatShortDate),
+            datasets: [{
+              label: 'Balance',
+              data: points,
+              borderColor: t.accent,
+              backgroundColor: grad,
+              fill: true,
+              tension: 0.36,
+              pointRadius: 3.5,
+              pointHoverRadius: 6,
+              pointBackgroundColor: t.accent,
+              pointBorderColor: t.surface,
+              pointBorderWidth: 2,
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                backgroundColor: t.surface,
+                titleColor: t.ink,
+                bodyColor: t.ink,
+                borderColor: t.line,
+                borderWidth: 1,
+                callbacks: { label: c => `Balance: ${fmtPHP(c.parsed.y)}` }
+              }
+            },
+            scales: {
+              x: { grid: { display: false }, ticks: { color: t.muted, font: { size: 11 } }, border: { display: false } },
+              y: { grid: { color: t.line }, ticks: { color: t.muted, font: { size: 11 }, callback: v => '₱' + v.toLocaleString() }, border: { display: false } }
+            }
+          }
+        });
       }
 
-      // Recent Transactions
+      // 2. Vertical Pill-Bar Breakdown Card (Top 5 Categories)
+      const pillWrap = document.getElementById('overview-pillbars-wrap');
+      const pillEmpty = document.getElementById('overview-pillbars-empty');
+
+      const topCats = appState.expenseCategories
+        .map(c => ({ ...c, spent: m.monthlyByCategory[c.id] || 0 }))
+        .filter(c => c.spent > 0)
+        .sort((a, b) => b.spent - a.spent)
+        .slice(0, 5);
+
+      if (!topCats.length) {
+        pillWrap.classList.add('hidden');
+        pillEmpty.classList.remove('hidden');
+      } else {
+        pillWrap.classList.remove('hidden');
+        pillEmpty.classList.add('hidden');
+        const maxVal = Math.max(...topCats.map(c => c.spent), 1);
+
+        pillWrap.innerHTML = topCats.map(c => {
+          const hPct = Math.max(18, Math.round((c.spent / maxVal) * 100));
+          const shortLabel = c.id.split(' ')[0];
+          return `
+            <div class="flex-1 flex flex-col items-center h-full justify-end min-w-0 group">
+              <span class="font-display text-[11px] font-bold text-[var(--ink)] tabular-nums mb-1.5 truncate max-w-full">${fmtPHP(c.spent, 0)}</span>
+              <div class="w-full max-w-[54px] flex-1 flex items-end rounded-full p-1 border border-[var(--line)]" style="background: color-mix(in srgb, var(--accent) 10%, transparent);">
+                <div class="pill-bar-fill w-full rounded-full flex flex-col items-center justify-start pt-2" style="height: ${hPct}%;">
+                  <span class="text-xs leading-none">${c.icon}</span>
+                </div>
+              </div>
+              <span class="text-[10px] font-medium text-[var(--muted)] mt-2 truncate max-w-full" title="${escapeHtml(c.id)}">${escapeHtml(shortLabel)}</span>
+            </div>
+          `;
+        }).join('');
+      }
+
+      // 3. Bottom Health Metric Row
+      animateCounter(document.getElementById('health-savings-rate'), m.savingsRate, { format: 'num', decimals: 1, suffix: '%' });
+      document.getElementById('health-savings-sub').textContent = `Net saved: ${fmtPHP(m.monthlyNetSaved)}`;
+
+      const totalBudgetAlloc = appState.expenseCategories.reduce((s, c) => s + (Number(c.limit) || 0), 0);
+      const effectiveCap = appState.monthlyCap > 0 ? appState.monthlyCap : totalBudgetAlloc;
+      const budgetPct = effectiveCap > 0 ? (m.monthlyExpenses / effectiveCap) * 100 : 0;
+
+      animateCounter(document.getElementById('health-budget-used'), budgetPct, { format: 'num', decimals: 1, suffix: '%' });
+      document.getElementById('health-budget-badge').textContent = `${Math.round(budgetPct)}%`;
+      const bBar = document.getElementById('health-budget-bar');
+      bBar.style.width = `${Math.min(100, budgetPct)}%`;
+      bBar.style.background = budgetPct >= 100 ? 'var(--g2)' : budgetPct >= 80 ? 'var(--mark)' : 'linear-gradient(90deg, var(--accent), var(--g2))';
+      document.getElementById('health-budget-sub').textContent = effectiveCap > 0
+        ? `${fmtPHP(m.monthlyExpenses, 0)} of ${fmtPHP(effectiveCap, 0)}`
+        : 'Set a cap in Wallets or Budgets';
+
+      document.getElementById('health-avg-fx').textContent = `₱${m.avgUsdRate.toFixed(2)}`;
+      document.getElementById('health-avg-fx-sub').textContent = m.hasUsdInflow
+        ? 'Weighted avg across USD payouts'
+        : 'Using current global FX rate';
+
+      // 4. Recent Activity Mini-List
       const recentEl = document.getElementById('overview-recent-list');
       const recent = [...appState.transactions].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 5);
 
       if (!recent.length) {
         recentEl.innerHTML = `
           <div class="py-10 text-center space-y-2.5">
-            <p class="font-display text-sm font-bold text-[var(--ink)]">Your ledger is clean and ready</p>
-            <p class="text-xs text-[var(--muted)]">Log your first USD client payout or PHP expense to get started.</p>
-            <div class="flex items-center justify-center gap-2 pt-1">
+            <p class="font-display text-sm font-bold text-[var(--ink)]">No activity yet — clean ₱0.00 ledger</p>
+            <p class="text-xs text-[var(--muted)]">Log a USD payout, PHP expense, or recurring bill to bring your dashboard to life.</p>
+            <div class="flex flex-wrap items-center justify-center gap-2 pt-1">
               <button onclick="openTransactionModal('income')" class="btn-primary px-3.5 py-2 rounded-xl text-xs">+ Log USD Payout</button>
               <button onclick="openTransactionModal('expense')" class="btn-outline px-3.5 py-2 rounded-xl text-xs">+ Add PHP Expense</button>
+              <button onclick="openRecurringModal()" class="btn-outline px-3.5 py-2 rounded-xl text-xs">+ Add Recurring Bill</button>
             </div>
           </div>
         `;
@@ -1524,8 +1949,8 @@
         recentEl.innerHTML = recent.map(tx => {
           const meta = getCategoryMeta(tx.category);
           const isInc = tx.type === 'income';
-          const usdSub = tx.currency === 'USD'
-            ? `<span class="inline-flex items-center gap-1 text-[10px] font-semibold px-1.5 py-0.5 rounded-md mt-0.5 tabular-nums" style="background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--accent);">${fmtUSD(tx.originalAmount)} @ ₱${Number(tx.rateUsed).toFixed(2)}</span>`
+          const usdBadge = tx.currency === 'USD'
+            ? `<span class="inline-block text-[10px] font-semibold px-1.5 py-0.5 rounded-md mt-0.5 tabular-nums" style="background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--accent);">${fmtUSD(tx.originalAmount)} @ ₱${Number(tx.rateUsed).toFixed(2)}</span>`
             : '';
           return `
             <div class="flex items-center justify-between py-3.5 gap-3 group">
@@ -1533,15 +1958,15 @@
                 <div class="w-10 h-10 rounded-xl border border-[var(--line)] flex items-center justify-center text-base shrink-0" style="background: color-mix(in srgb, var(--accent) 10%, transparent);">${meta.icon}</div>
                 <div class="min-w-0">
                   <p class="text-sm font-medium text-[var(--ink)] truncate">${escapeHtml(tx.desc)}</p>
-                  <p class="text-[11px] text-[var(--muted)] mt-0.5">${escapeHtml(tx.category)} • ${formatShortDate(tx.date)}</p>
+                  <p class="text-[11px] text-[var(--muted)] mt-0.5">${escapeHtml(tx.category)} · ${formatShortDate(tx.date)}</p>
                 </div>
               </div>
               <div class="flex items-center gap-3 shrink-0 text-right">
                 <div class="flex flex-col items-end">
-                  <span class="font-display font-bold text-sm tabular-nums" style="color: ${isInc ? 'var(--success)' : 'var(--ink)'};">
+                  <span class="font-display font-bold text-sm tabular-nums" style="color: ${isInc ? 'var(--income)' : 'var(--ink)'};">
                     ${isInc ? '+' : '-'}${fmtPHP(tx.amountPHP)}
                   </span>
-                  ${usdSub}
+                  ${usdBadge}
                 </div>
                 <button onclick="deleteTransaction('${tx.id}')" class="opacity-0 group-hover:opacity-100 focus:opacity-100 p-1.5 rounded-lg text-[var(--muted)] hover:text-[var(--danger)] transition" title="Delete">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
@@ -1551,157 +1976,451 @@
           `;
         }).join('');
       }
-
-      renderOverviewCharts(m);
     }
 
-    function getCategoryPalette(t) {
-      return [t.accent, t.g2, t.mark, t.success, '#6c63ff', '#e07a5f', '#48bfe3'];
+    // ---------- VIEW 2: CASH FLOW & FORECAST ----------
+    function switchCashflowSubtab(subtab) {
+      currentCashflowSubtab = subtab;
+      document.querySelectorAll('#cashflow-subtabs .seg-btn').forEach(btn => {
+        const match = btn.dataset.cfsub === subtab;
+        btn.classList.toggle('active', match);
+        if (match) slideElasticPill('cashflow-subtab-pill', btn, 'x', 10, false);
+      });
+
+      const pMonthly = document.getElementById('cf-panel-monthly');
+      const pForecast = document.getElementById('cf-panel-forecast');
+      const showEl = subtab === 'monthly' ? pMonthly : pForecast;
+      const hideEl = subtab === 'monthly' ? pForecast : pMonthly;
+
+      hideEl.classList.add('hidden');
+      showEl.classList.remove('hidden');
+
+      gsap.fromTo(showEl, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.28, ease: 'power2.out' });
+      renderCashflowView(computeMetrics());
     }
 
-    function renderOverviewCharts(m) {
+    function renderCashflowView(m) {
       const t = getThemeTokens();
-      const palette = getCategoryPalette(t);
 
-      // 1. Cashflow Bar Chart
-      const cfEmpty = document.getElementById('overview-cashflow-empty');
-      const cfCanvas = document.getElementById('overviewCashflowChart');
-      if (charts.overviewCashflow) { charts.overviewCashflow.destroy(); charts.overviewCashflow = null; }
+      // 4-Card Summary Strip
+      document.getElementById('cf-opening').textContent = fmtPHP(m.openingBalance);
+      document.getElementById('cf-inflow').textContent = fmtPHP(m.totalInflow);
+      document.getElementById('cf-outflow').textContent = fmtPHP(m.totalOutflow);
+      const netEl = document.getElementById('cf-net');
+      netEl.textContent = (m.netCashFlow >= 0 ? '+' : '') + fmtPHP(m.netCashFlow);
+      netEl.style.color = m.netCashFlow > 0 ? 'var(--income)' : m.netCashFlow < 0 ? 'var(--expense)' : 'var(--ink)';
 
-      if (!appState.transactions.length) {
-        cfEmpty.classList.remove('hidden');
-      } else {
-        cfEmpty.classList.add('hidden');
-        const dateMap = {};
+      if (currentCashflowSubtab === 'monthly') {
+        // Build last 6 months keys
+        const now = new Date();
+        const months = [];
+        for (let i = 5; i >= 0; i--) {
+          const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+          const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+          const label = d.toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
+          months.push({ key, label, inc: 0, exp: 0 });
+        }
+
         appState.transactions.forEach(tx => {
-          if (!dateMap[tx.date]) dateMap[tx.date] = { inc: 0, exp: 0 };
-          if (tx.type === 'income') dateMap[tx.date].inc += Number(tx.amountPHP) || 0;
-          else dateMap[tx.date].exp += Number(tx.amountPHP) || 0;
+          const mk = (tx.date || '').slice(0, 7);
+          const slot = months.find(x => x.key === mk);
+          if (!slot) return;
+          if (tx.type === 'income') slot.inc += Number(tx.amountPHP) || 0;
+          else slot.exp += Number(tx.amountPHP) || 0;
         });
-        const dates = Object.keys(dateMap).sort();
 
-        charts.overviewCashflow = new Chart(cfCanvas.getContext('2d'), {
-          type: 'bar',
-          data: {
-            labels: dates.map(formatShortDate),
-            datasets: [
-              { label: 'Income', data: dates.map(d => dateMap[d].inc), backgroundColor: t.accent, borderRadius: 6, barPercentage: 0.6 },
-              { label: 'Expenses', data: dates.map(d => dateMap[d].exp), backgroundColor: t.g2, borderRadius: 6, barPercentage: 0.6 }
-            ]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: { display: false },
-              tooltip: {
-                backgroundColor: t.surface,
-                titleColor: t.ink,
-                bodyColor: t.ink,
-                borderColor: t.line,
-                borderWidth: 1,
-                callbacks: { label: c => `${c.dataset.label}: ${fmtPHP(c.parsed.y)}` }
-              }
+        const hasData = months.some(x => x.inc > 0 || x.exp > 0);
+        const emptyEl = document.getElementById('cf-monthly-empty');
+        if (charts.cashflowMonthly) { charts.cashflowMonthly.destroy(); charts.cashflowMonthly = null; }
+
+        if (!hasData) {
+          emptyEl.classList.remove('hidden');
+        } else {
+          emptyEl.classList.add('hidden');
+          charts.cashflowMonthly = new Chart(document.getElementById('cashflowMonthlyChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+              labels: months.map(x => x.label),
+              datasets: [
+                { label: 'Income', data: months.map(x => x.inc), backgroundColor: t.income, borderRadius: 6, barPercentage: 0.68 },
+                { label: 'Expenses', data: months.map(x => x.exp), backgroundColor: t.expense, borderRadius: 6, barPercentage: 0.68 },
+              ]
             },
-            scales: {
-              x: { grid: { display: false }, ticks: { color: t.muted, font: { size: 11 } }, border: { display: false } },
-              y: {
-                grid: { color: t.line },
-                ticks: { color: t.muted, font: { size: 11 }, callback: v => '₱' + v.toLocaleString() },
-                border: { display: false },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: false },
+                tooltip: {
+                  backgroundColor: t.surface,
+                  titleColor: t.ink,
+                  bodyColor: t.ink,
+                  borderColor: t.line,
+                  borderWidth: 1,
+                  callbacks: { label: c => `${c.dataset.label}: ${fmtPHP(c.parsed.y)}` }
+                }
+              },
+              scales: {
+                x: { grid: { display: false }, ticks: { color: t.muted, font: { size: 11 } }, border: { display: false } },
+                y: { grid: { color: t.line }, ticks: { color: t.muted, font: { size: 11 }, callback: v => '₱' + v.toLocaleString() }, border: { display: false } }
               }
             }
-          }
-        });
-      }
+          });
+        }
 
-      // 2. Category Spending Doughnut
-      const catEmpty = document.getElementById('overview-category-empty');
-      const catCenter = document.getElementById('overview-cat-center');
-      const catCanvas = document.getElementById('overviewCategoryChart');
-      if (charts.overviewCategory) { charts.overviewCategory.destroy(); charts.overviewCategory = null; }
-
-      const activeCats = appState.expenseCategories
-        .map((c, i) => ({ ...c, spent: m.byCategory[c.id] || 0, color: palette[i % palette.length] }))
-        .filter(c => c.spent > 0);
-
-      if (!activeCats.length) {
-        catEmpty.classList.remove('hidden');
-        catCenter.classList.add('hidden');
+        // 6-Month Breakdown Strip
+        document.getElementById('cf-monthly-strip').innerHTML = months.map(mo => {
+          const net = mo.inc - mo.exp;
+          const color = net > 0 ? 'var(--income)' : net < 0 ? 'var(--expense)' : 'var(--muted)';
+          return `
+            <div class="glass-card p-3.5 text-center">
+              <p class="text-[11px] font-medium text-[var(--muted)]">${mo.label}</p>
+              <p class="font-display text-sm font-bold tabular-nums mt-1" style="color: ${color};">${net > 0 ? '+' : ''}${fmtPHP(net, 0)}</p>
+            </div>
+          `;
+        }).join('');
       } else {
-        catEmpty.classList.add('hidden');
-        catCenter.classList.remove('hidden');
-        document.getElementById('overview-cat-center-val').textContent = fmtPHP(m.totalExpensesPHP, 0);
+        // Next 30 Days Forecast
+        const now = new Date();
+        let projBal = m.totalBalance;
+        const labels = [];
+        const dataPoints = [];
+        const milestones = [];
 
-        charts.overviewCategory = new Chart(catCanvas.getContext('2d'), {
-          type: 'doughnut',
-          data: {
-            labels: activeCats.map(c => c.id),
-            datasets: [{
-              data: activeCats.map(c => c.spent),
-              backgroundColor: activeCats.map(c => c.color),
-              borderColor: t.surface,
-              borderWidth: 3,
-              hoverOffset: 5,
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            cutout: '72%',
-            plugins: {
-              legend: { display: false },
-              tooltip: {
-                backgroundColor: t.surface,
-                titleColor: t.ink,
-                bodyColor: t.ink,
-                borderColor: t.line,
-                borderWidth: 1,
-                callbacks: { label: c => `${c.label}: ${fmtPHP(c.parsed)}` }
+        for (let i = 0; i <= 30; i++) {
+          const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() + i);
+          const dayNum = d.getDate();
+          const mKey = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+          const dateLabel = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
+          if (i > 0) {
+            appState.recurring.forEach(item => {
+              if (Number(item.dayOfMonth) === dayNum && !(item.paidMonths || []).includes(mKey)) {
+                const php = getRecurringPHPAmount(item);
+                const delta = item.type === 'payout' ? php : -php;
+                projBal += delta;
+                milestones.push({
+                  dateLabel,
+                  name: item.name,
+                  type: item.type,
+                  php,
+                  currency: item.currency,
+                  orig: item.amount,
+                  resultingBalance: projBal,
+                });
+              }
+            });
+          }
+
+          labels.push(dateLabel);
+          dataPoints.push(projBal);
+        }
+
+        document.getElementById('cf-forecast-end-bal').textContent = `Day 30 Projected: ${fmtPHP(projBal)}`;
+
+        const fEmpty = document.getElementById('cf-forecast-empty');
+        if (charts.cashflowForecast) { charts.cashflowForecast.destroy(); charts.cashflowForecast = null; }
+
+        if (m.totalBalance === 0 && !milestones.length) {
+          fEmpty.classList.remove('hidden');
+        } else {
+          fEmpty.classList.add('hidden');
+          const ctx = document.getElementById('cashflowForecastChart').getContext('2d');
+          const grad = ctx.createLinearGradient(0, 0, 0, 250);
+          grad.addColorStop(0, t.accent + '50');
+          grad.addColorStop(1, t.accent + '00');
+
+          charts.cashflowForecast = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels,
+              datasets: [{
+                label: 'Projected Balance',
+                data: dataPoints,
+                borderColor: t.accent,
+                backgroundColor: grad,
+                fill: true,
+                tension: 0.28,
+                pointRadius: 2,
+                pointHoverRadius: 5,
+                pointBackgroundColor: t.g2,
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: false },
+                tooltip: {
+                  backgroundColor: t.surface,
+                  titleColor: t.ink,
+                  bodyColor: t.ink,
+                  borderColor: t.line,
+                  borderWidth: 1,
+                  callbacks: { label: c => `Projected: ${fmtPHP(c.parsed.y)}` }
+                }
+              },
+              scales: {
+                x: { grid: { display: false }, ticks: { color: t.muted, font: { size: 10 }, maxTicksLimit: 8 }, border: { display: false } },
+                y: { grid: { color: t.line }, ticks: { color: t.muted, font: { size: 11 }, callback: v => '₱' + v.toLocaleString() }, border: { display: false } }
               }
             }
-          }
-        });
+          });
+        }
+
+        const mEl = document.getElementById('cf-forecast-milestones');
+        if (!milestones.length) {
+          mEl.innerHTML = `<p class="text-xs text-[var(--muted)] py-6 text-center">No scheduled bills or payouts in the next 30 days. Add items in the Recurring tab to project milestones.</p>`;
+        } else {
+          mEl.innerHTML = milestones.map(ms => {
+            const isPay = ms.type === 'payout';
+            return `
+              <div class="flex items-center justify-between py-3 gap-3 text-xs">
+                <div class="flex items-center gap-3 min-w-0">
+                  <span class="px-2 py-1 rounded-lg border border-[var(--line)] font-semibold text-[var(--muted)] shrink-0">${ms.dateLabel}</span>
+                  <div class="min-w-0">
+                    <p class="font-medium text-[var(--ink)] truncate">${escapeHtml(ms.name)}</p>
+                    <p class="text-[11px] text-[var(--muted)]">${isPay ? 'Expected Payout' : 'Recurring Bill'}${ms.currency === 'USD' ? ` · ${fmtUSD(ms.orig)}` : ''}</p>
+                  </div>
+                </div>
+                <div class="text-right shrink-0">
+                  <p class="font-display font-bold tabular-nums" style="color: ${isPay ? 'var(--income)' : 'var(--expense)'};">${isPay ? '+' : '-'}${fmtPHP(ms.php)}</p>
+                  <p class="text-[10px] text-[var(--muted)] tabular-nums">Bal: ${fmtPHP(ms.resultingBalance, 0)}</p>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
       }
     }
 
-    // ---------- VIEW 2: WALLETS ----------
-    function renderWalletsView() {
-      const m = computeMetrics();
+    // ---------- VIEW 3: AUTOMATIC PAYMENTS / RECURRING ----------
+    function renderRecurringView(m) {
+      const bills = appState.recurring.filter(r => r.type === 'bill');
+      const payouts = appState.recurring.filter(r => r.type === 'payout');
+
+      const fixedCosts = bills.reduce((s, r) => s + getRecurringPHPAmount(r), 0);
+      const expectedPayouts = payouts.reduce((s, r) => s + getRecurringPHPAmount(r), 0);
+
+      document.getElementById('rec-fixed-costs').textContent = fmtPHP(fixedCosts);
+      document.getElementById('rec-active-count').textContent = String(bills.length);
+      document.getElementById('rec-expected-payouts').textContent = fmtPHP(expectedPayouts);
+      document.getElementById('rec-due-7days').textContent = fmtPHP(m.dueNext7Total);
+      document.getElementById('rec-due-7days-count').textContent = `${m.dueNext7Count} bill${m.dueNext7Count === 1 ? '' : 's'} due soon`;
+
+      // Render Monthly Calendar Grid
+      const viewDate = new Date(calYear, calMonth, 1);
+      document.getElementById('cal-month-label').textContent = viewDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+      const viewMonthKey = `${calYear}-${String(calMonth + 1).padStart(2, '0')}`;
+
+      const firstDow = viewDate.getDay();
+      const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+      const today = new Date();
+      const isCurrentCalMonth = today.getFullYear() === calYear && today.getMonth() === calMonth;
+
+      let cellsHtml = '';
+      for (let i = 0; i < firstDow; i++) {
+        cellsHtml += `<div class="aspect-square"></div>`;
+      }
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dayItems = appState.recurring.filter(r => Number(r.dayOfMonth) === day);
+        const hasBill = dayItems.some(r => r.type === 'bill');
+        const hasPayout = dayItems.some(r => r.type === 'payout');
+        const isToday = isCurrentCalMonth && today.getDate() === day;
+        const isSelected = selectedCalendarDay === day;
+
+        cellsHtml += `
+          <button
+            type="button"
+            onclick="selectCalendarDay(${day})"
+            class="cal-cell flex flex-col items-center justify-between p-1.5 text-center ${isToday ? 'is-today' : ''} ${isSelected ? 'is-selected' : ''}"
+          >
+            <span class="text-xs font-display font-semibold ${isToday ? 'text-[var(--accent)]' : 'text-[var(--ink)]'}">${day}</span>
+            <div class="flex items-center gap-1 min-h-[8px]">
+              ${hasBill ? `<span class="w-2 h-2 rounded-full" style="background: var(--expense);" title="Recurring Bill"></span>` : ''}
+              ${hasPayout ? `<span class="w-2 h-2 rounded-full" style="background: var(--income);" title="Expected Payout"></span>` : ''}
+            </div>
+          </button>
+        `;
+      }
+
+      document.getElementById('recurring-calendar-grid').innerHTML = cellsHtml;
+      document.getElementById('cal-clear-filter-btn').classList.toggle('hidden', selectedCalendarDay === null);
+
+      // Scheduled List
+      const listEl = document.getElementById('recurring-list');
+      const titleEl = document.getElementById('rec-list-title');
+
+      const items = selectedCalendarDay !== null
+        ? appState.recurring.filter(r => Number(r.dayOfMonth) === selectedCalendarDay)
+        : [...appState.recurring].sort((a, b) => Number(a.dayOfMonth) - Number(b.dayOfMonth));
+
+      titleEl.textContent = selectedCalendarDay !== null
+        ? `Scheduled on the ${getOrdinal(selectedCalendarDay)}`
+        : 'Scheduled Bills & Payouts';
+
+      if (!items.length) {
+        listEl.innerHTML = `
+          <div class="h-full min-h-[220px] flex flex-col items-center justify-center text-center p-6 rounded-2xl border border-dashed border-[var(--line)]" style="background: color-mix(in srgb, var(--bg) 50%, transparent);">
+            <p class="font-display text-sm font-bold text-[var(--ink)]">
+              ${selectedCalendarDay !== null ? `Nothing scheduled on the ${getOrdinal(selectedCalendarDay)}` : 'No recurring bills or payouts yet'}
+            </p>
+            <p class="text-xs text-[var(--muted)] mt-1 max-w-xs">
+              Add your monthly rent, internet, subscriptions, or expected USD client retainers to power your calendar and 30-day forecast.
+            </p>
+            <button onclick="openRecurringModal(${selectedCalendarDay || 15})" class="btn-primary mt-3.5 px-4 py-2 rounded-xl text-xs">
+              + Add Recurring ${selectedCalendarDay !== null ? `for ${getOrdinal(selectedCalendarDay)}` : 'Bill'}
+            </button>
+          </div>
+        `;
+      } else {
+        listEl.innerHTML = items.map(item => {
+          const isPayout = item.type === 'payout';
+          const isSettled = (item.paidMonths || []).includes(viewMonthKey);
+          const phpAmt = getRecurringPHPAmount(item);
+          const usdBadge = item.currency === 'USD'
+            ? `<span class="text-[10px] font-semibold px-1.5 py-0.5 rounded-md tabular-nums" style="background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--accent);">${fmtUSD(item.amount)}</span>`
+            : '';
+
+          return `
+            <div class="p-4 rounded-2xl border border-[var(--line)] flex flex-col sm:flex-row sm:items-center justify-between gap-3" style="background: color-mix(in srgb, var(--bg) 52%, transparent);">
+              <div class="min-w-0">
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="w-2 h-2 rounded-full shrink-0" style="background: ${isPayout ? 'var(--income)' : 'var(--expense)'};"></span>
+                  <p class="font-display font-bold text-sm text-[var(--ink)] truncate">${escapeHtml(item.name)}</p>
+                  <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full border border-[var(--line)] text-[var(--muted)]">Every ${getOrdinal(item.dayOfMonth)}</span>
+                  ${isSettled
+                    ? `<span class="text-[10px] font-semibold px-2 py-0.5 rounded-full" style="background: color-mix(in srgb, var(--income) 18%, transparent); color: var(--income);">${isPayout ? 'Received' : 'Paid'}</span>`
+                    : `<span class="text-[10px] font-semibold px-2 py-0.5 rounded-full" style="background: color-mix(in srgb, var(--mark) 22%, transparent); color: var(--mark);">Due</span>`
+                  }
+                </div>
+                <div class="flex items-center gap-2 mt-1.5">
+                  <span class="font-display font-bold text-base tabular-nums" style="color: ${isPayout ? 'var(--income)' : 'var(--ink)'};">${isPayout ? '+' : '-'}${fmtPHP(phpAmt)}</span>
+                  ${usdBadge}
+                  <span class="text-[11px] text-[var(--muted)]">· ${escapeHtml(item.category)}</span>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-2 shrink-0">
+                ${!isSettled
+                  ? `<button onclick="markRecurringSettled('${item.id}', '${viewMonthKey}')" class="btn-primary px-3 py-1.5 rounded-xl text-xs whitespace-nowrap">${isPayout ? 'Mark Received' : 'Mark as Paid'}</button>`
+                  : `<span class="text-[11px] text-[var(--muted)] px-2">Logged ✓</span>`
+                }
+                <button onclick="deleteRecurring('${item.id}')" class="p-2 rounded-xl text-[var(--muted)] hover:text-[var(--danger)] transition" title="Delete recurring item">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    function changeCalendarMonth(delta) {
+      calMonth += delta;
+      if (calMonth < 0) { calMonth = 11; calYear--; }
+      else if (calMonth > 11) { calMonth = 0; calYear++; }
+      selectedCalendarDay = null;
+      renderRecurringView(computeMetrics());
+    }
+
+    function resetCalendarMonth() {
+      const n = new Date();
+      calYear = n.getFullYear();
+      calMonth = n.getMonth();
+      selectedCalendarDay = null;
+      renderRecurringView(computeMetrics());
+    }
+
+    function selectCalendarDay(day) {
+      selectedCalendarDay = selectedCalendarDay === day ? null : day;
+      renderRecurringView(computeMetrics());
+    }
+
+    function clearCalendarDayFilter() {
+      selectedCalendarDay = null;
+      renderRecurringView(computeMetrics());
+    }
+
+    function markRecurringSettled(id, monthKey) {
+      const item = appState.recurring.find(r => r.id === id);
+      if (!item) return;
+
+      if (item.type === 'bill' && item.walletId === 'discretionary' && appState.controls.freezeDiscretionary) {
+        showToast('Discretionary Card is frozen! Unfreeze it in Wallets first.');
+        return;
+      }
+
+      const rateUsed = item.currency === 'USD' ? appState.exchangeRate : 1;
+      const origAmt = Number(item.amount) || 0;
+      const amountPHP = item.currency === 'USD' ? origAmt * rateUsed : origAmt;
+
+      // Log as a real transaction
+      const todayIso = new Date().toISOString().split('T')[0];
+      appState.transactions.unshift({
+        id: 'tx-' + Date.now(),
+        type: item.type === 'payout' ? 'income' : 'expense',
+        desc: `${item.name} (Recurring)`,
+        category: item.category,
+        walletId: item.walletId,
+        date: todayIso,
+        currency: item.currency,
+        originalAmount: origAmt,
+        rateUsed,
+        amountPHP,
+      });
+
+      if (!Array.isArray(item.paidMonths)) item.paidMonths = [];
+      if (!item.paidMonths.includes(monthKey)) item.paidMonths.push(monthKey);
+
+      saveState();
+      renderCurrentView();
+      showToast(`${item.name} logged (${fmtPHP(amountPHP)})`);
+    }
+
+    function deleteRecurring(id) {
+      appState.recurring = appState.recurring.filter(r => r.id !== id);
+      saveState();
+      renderCurrentView();
+      showToast('Recurring item removed');
+    }
+
+    // ---------- VIEW 4: WALLETS ----------
+    function renderWalletsView(m) {
       const rate = appState.exchangeRate > 0 ? appState.exchangeRate : 58;
 
-      const cardsGrid = document.getElementById('wallets-cards-grid');
-      cardsGrid.innerHTML = appState.wallets.map(w => {
+      document.getElementById('wallets-cards-grid').innerHTML = appState.wallets.map(w => {
         const balPHP = m.walletBalances[w.id] || 0;
         const balUSD = balPHP / rate;
         const isFrozen = w.id === 'discretionary' && appState.controls.freezeDiscretionary;
 
         return `
           <div class="tilt-stage">
-            <div class="virtual-card ${w.theme} p-5 sm:p-6 select-none" data-tilt-card>
+            <div class="virtual-card ${w.theme} p-5 select-none" data-tilt-card>
               <div class="card-grid-pattern"></div>
               <div class="card-sheen"></div>
-              <div class="relative z-10 flex flex-col justify-between h-52">
+              <div class="relative z-10 flex flex-col justify-between h-48">
                 <div class="flex items-start justify-between gap-2">
-                  <div class="flex items-center gap-3">
+                  <div class="flex items-center gap-2.5">
                     <div class="card-chip"></div>
                     <div>
-                      <span class="text-xs font-bold text-white block">${w.name}</span>
-                      <span class="text-[11px] text-white/70">${w.subtitle}</span>
+                      <span class="text-xs font-bold text-white block leading-tight">${w.name}</span>
+                      <span class="text-[10px] text-white/70">${w.subtitle}</span>
                     </div>
                   </div>
                   ${isFrozen
-                    ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-rose-500/25 text-rose-100 border border-rose-300/40"><span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span>Frozen</span>`
-                    : `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-white/15 text-white border border-white/25"><span class="w-1.5 h-1.5 rounded-full bg-[#2fb36b]"></span>Active</span>`
+                    ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-rose-500/25 text-rose-100 border border-rose-300/40">Frozen</span>`
+                    : `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-white/15 text-white border border-white/25">Active</span>`
                   }
                 </div>
 
                 <div>
                   <p class="font-display text-2xl font-bold text-white tabular-nums">${fmtPHP(balPHP)}</p>
-                  <p class="text-[11px] text-white/75 tabular-nums mt-0.5">≈ ${fmtUSD(balUSD)} USD</p>
+                  <p class="text-[11px] text-white/75 tabular-nums mt-0.5">${appState.controls.autoConvertUsdDisplay ? `≈ ${fmtUSD(balUSD)} USD` : 'PHP Wallet'}</p>
                 </div>
 
-                <div class="flex items-center justify-between text-[11px] text-white/75">
+                <div class="flex items-center justify-between text-[10px] text-white/75">
                   <span class="font-mono tracking-widest">${w.number}</span>
                   <span class="font-display font-bold tracking-wider">LOOMWELL</span>
                 </div>
@@ -1715,12 +2434,11 @@
 
       const slider = document.getElementById('monthly-cap-slider');
       slider.value = appState.monthlyCap;
-      updateWalletCapUI(m.totalExpensesPHP);
+      updateWalletCapUI(m.monthlyExpenses);
 
       const defs = [
-        { key: 'freezeDiscretionary', title: 'Freeze Discretionary Card', desc: 'Blocks logging any new expenses to your Discretionary Card' },
-        { key: 'strictAlerts', title: 'Strict Over-Budget Alerts', desc: 'Show warning banners when expenses exceed your PHP spending cap' },
-        { key: 'usdPayoutDefault', title: 'Default Income to USD ($)', desc: 'Automatically select USD currency when opening Add Income' },
+        { key: 'freezeDiscretionary', title: 'Freeze Discretionary Card', desc: 'Blocks new expenses logged to your Discretionary Card' },
+        { key: 'autoConvertUsdDisplay', title: 'Auto-Convert USD to PHP Display', desc: 'Show live USD equivalents beneath PHP balances' },
       ];
 
       document.getElementById('smart-controls-list').innerHTML = defs.map(d => {
@@ -1754,40 +2472,44 @@
         const pct = Math.min(100, (spent / cap) * 100);
         pctEl.textContent = `${pct.toFixed(0)}% used`;
         bar.style.width = `${pct}%`;
-        if (spent > cap) bar.style.background = 'var(--danger)';
-        else if (pct >= 80) bar.style.background = 'var(--mark)';
-        else bar.style.background = 'linear-gradient(90deg, var(--accent), var(--g2))';
+        bar.style.background = spent > cap ? 'var(--g2)' : pct >= 80 ? 'var(--mark)' : 'linear-gradient(90deg, var(--accent), var(--g2))';
       }
     }
 
     function toggleSmartControl(key) {
       appState.controls[key] = !appState.controls[key];
       saveState();
-      renderWalletsView();
+      renderCurrentView();
       showToast(key === 'freezeDiscretionary'
         ? (appState.controls[key] ? 'Discretionary Card frozen' : 'Discretionary Card unfrozen')
-        : 'Smart control updated');
+        : 'Display preference updated');
     }
 
-    // ---------- VIEW 3: TRANSACTIONS ----------
-    function syncTxFilterButtons() {
-      document.querySelectorAll('.tx-filter-btn').forEach(btn => {
-        const active = btn.dataset.txfilter === txTypeFilter;
-        btn.style.background = active ? 'var(--accent)' : 'transparent';
-        btn.style.color = active ? 'var(--accent-ink)' : 'var(--muted)';
-      });
+    // ---------- VIEW 5: TRANSACTIONS ----------
+    function populateCategoryFilterDropdown() {
+      const sel = document.getElementById('tx-cat-filter');
+      const currentVal = sel.value || 'all';
+      const allCats = [
+        ...appState.expenseCategories.map(c => c.id),
+        ...INCOME_CATEGORIES.map(c => c.id),
+      ];
+      sel.innerHTML = `<option value="all">All Categories</option>` +
+        allCats.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
+      sel.value = allCats.includes(currentVal) ? currentVal : 'all';
     }
 
     function renderTransactionsView() {
-      syncTxFilterButtons();
+      populateCategoryFilterDropdown();
       const tbody = document.getElementById('transactions-table-body');
       const emptyEl = document.getElementById('transactions-empty');
-      const q = searchQuery.trim().toLowerCase();
+      const q = txSearchQuery.trim().toLowerCase();
 
       const filtered = appState.transactions
         .filter(tx => {
-          if (txTypeFilter !== 'all' && tx.type !== txTypeFilter) return false;
-          if (txCurrencyFilter !== 'all' && tx.currency !== txCurrencyFilter) return false;
+          if (txFilter === 'income' && tx.type !== 'income') return false;
+          if (txFilter === 'expense' && tx.type !== 'expense') return false;
+          if (txFilter === 'usd' && tx.currency !== 'USD') return false;
+          if (txCatFilter !== 'all' && tx.category !== txCatFilter) return false;
           if (q && !(tx.desc.toLowerCase().includes(q) || tx.category.toLowerCase().includes(q))) return false;
           return true;
         })
@@ -1810,21 +2532,20 @@
 
         return `
           <tr class="transition hover:bg-[color-mix(in_srgb,var(--accent)_6%,transparent)]">
-            <td class="py-3.5 px-5">
-              <div class="flex items-center gap-3">
-                <span class="w-9 h-9 rounded-xl border border-[var(--line)] flex items-center justify-center text-sm shrink-0" style="background: color-mix(in srgb, var(--accent) 10%, transparent);">${meta.icon}</span>
-                <div>
-                  <span class="font-medium text-[var(--ink)] block">${escapeHtml(tx.desc)}</span>
-                  <span class="text-[10px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded border border-[var(--line)] text-[var(--muted)]">${tx.currency}</span>
-                </div>
+            <td class="py-3.5 px-5 text-xs text-[var(--muted)] tabular-nums whitespace-nowrap">${formatShortDate(tx.date)}</td>
+            <td class="py-3.5 px-4">
+              <div class="flex items-center gap-2.5">
+                <span class="w-8 h-8 rounded-lg border border-[var(--line)] flex items-center justify-center text-sm shrink-0" style="background: color-mix(in srgb, var(--accent) 10%, transparent);">${meta.icon}</span>
+                <span class="font-medium text-[var(--ink)]">${escapeHtml(tx.desc)}</span>
               </div>
             </td>
-            <td class="py-3.5 px-4 text-[var(--muted)] text-xs">${escapeHtml(tx.category)}</td>
-            <td class="py-3.5 px-4 text-[var(--muted)] text-xs hidden md:table-cell">${wallet ? wallet.name : 'Main PHP'}</td>
-            <td class="py-3.5 px-4 text-[var(--muted)] tabular-nums text-xs">${formatShortDate(tx.date)}</td>
-            <td class="py-3.5 px-5 text-right">
+            <td class="py-3.5 px-4">
+              <span class="text-[11px] font-medium px-2.5 py-1 rounded-full border border-[var(--line)] text-[var(--muted)] whitespace-nowrap">${escapeHtml(tx.category)}</span>
+            </td>
+            <td class="py-3.5 px-4 text-xs text-[var(--muted)] hidden md:table-cell whitespace-nowrap">${wallet ? wallet.name : 'Main Bank'}</td>
+            <td class="py-3.5 px-5 text-right whitespace-nowrap">
               <div class="flex flex-col items-end">
-                <span class="font-display font-bold tabular-nums" style="color: ${isInc ? 'var(--success)' : 'var(--ink)'};">
+                <span class="font-display font-bold tabular-nums" style="color: ${isInc ? 'var(--income)' : 'var(--ink)'};">
                   ${isInc ? '+' : '-'}${fmtPHP(tx.amountPHP)}
                 </span>
                 ${usdBadge}
@@ -1840,219 +2561,58 @@
       }).join('');
     }
 
-    // ---------- VIEW 4: INSIGHTS ----------
-    function renderInsightsView() {
-      const m = computeMetrics();
-      const t = getThemeTokens();
-
-      if (currentInsightsSubtab === 'overview') {
-        document.getElementById('ins-usd-inflow-php').textContent = fmtPHP(m.usdInflowPHP);
-        document.getElementById('ins-usd-inflow-orig').textContent = `${fmtUSD(m.usdInflowOrig)} USD total`;
-        document.getElementById('ins-php-inflow').textContent = fmtPHP(m.phpInflowOnly);
-        document.getElementById('ins-avg-rate').textContent = `₱${m.avgUsdRate.toFixed(2)}`;
-
-        // Trend Line Chart
-        const trendEmpty = document.getElementById('insights-trend-empty');
-        if (charts.insightsTrend) { charts.insightsTrend.destroy(); charts.insightsTrend = null; }
-
-        if (!appState.transactions.length) {
-          trendEmpty.classList.remove('hidden');
-        } else {
-          trendEmpty.classList.add('hidden');
-          const byDate = {};
-          appState.transactions.forEach(tx => {
-            if (!byDate[tx.date]) byDate[tx.date] = { inc: 0, exp: 0 };
-            if (tx.type === 'income') byDate[tx.date].inc += Number(tx.amountPHP) || 0;
-            else byDate[tx.date].exp += Number(tx.amountPHP) || 0;
-          });
-          const labels = Object.keys(byDate).sort();
-          charts.insightsTrend = new Chart(document.getElementById('insightsTrendChart').getContext('2d'), {
-            type: 'line',
-            data: {
-              labels: labels.map(formatShortDate),
-              datasets: [
-                { label: 'Income', data: labels.map(d => byDate[d].inc), borderColor: t.accent, backgroundColor: 'rgba(156, 147, 255, 0.14)', fill: true, tension: 0.35 },
-                { label: 'Expenses', data: labels.map(d => byDate[d].exp), borderColor: t.g2, backgroundColor: 'rgba(255, 154, 118, 0.12)', fill: true, tension: 0.35 }
-              ]
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio: false,
-              plugins: {
-                legend: { labels: { color: t.muted, font: { size: 11 } } },
-                tooltip: {
-                  backgroundColor: t.surface,
-                  titleColor: t.ink,
-                  bodyColor: t.ink,
-                  borderColor: t.line,
-                  borderWidth: 1,
-                  callbacks: { label: c => `${c.dataset.label}: ${fmtPHP(c.parsed.y)}` }
-                }
-              },
-              scales: {
-                x: { grid: { display: false }, ticks: { color: t.muted, font: { size: 11 } }, border: { display: false } },
-                y: { grid: { color: t.line }, ticks: { color: t.muted, font: { size: 11 }, callback: v => '₱' + v.toLocaleString() }, border: { display: false } }
-              }
-            }
-          });
-        }
-
-        // USD vs PHP Inflow Mix
-        const curEmpty = document.getElementById('insights-currency-empty');
-        if (charts.insightsCurrency) { charts.insightsCurrency.destroy(); charts.insightsCurrency = null; }
-
-        if (m.totalIncomePHP <= 0) {
-          curEmpty.classList.remove('hidden');
-        } else {
-          curEmpty.classList.add('hidden');
-          charts.insightsCurrency = new Chart(document.getElementById('insightsCurrencyChart').getContext('2d'), {
-            type: 'doughnut',
-            data: {
-              labels: ['USD Payouts (in PHP)', 'Local PHP Income'],
-              datasets: [{
-                data: [m.usdInflowPHP, m.phpInflowOnly],
-                backgroundColor: [t.accent, t.g2],
-                borderColor: t.surface,
-                borderWidth: 3,
-              }]
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio: false,
-              cutout: '68%',
-              plugins: {
-                legend: { position: 'bottom', labels: { color: t.muted, font: { size: 11 } } },
-                tooltip: {
-                  backgroundColor: t.surface,
-                  titleColor: t.ink,
-                  bodyColor: t.ink,
-                  borderColor: t.line,
-                  borderWidth: 1,
-                  callbacks: { label: c => `${c.label}: ${fmtPHP(c.parsed)}` }
-                }
-              }
-            }
-          });
-        }
-      } else {
-        // Spending Sub-tab
-        document.getElementById('spending-total-badge').textContent = `${fmtPHP(m.totalExpensesPHP)} total`;
-        const barsEl = document.getElementById('insights-category-bars');
-
-        if (m.totalExpensesPHP <= 0) {
-          barsEl.innerHTML = `<p class="text-xs text-[var(--muted)] py-8 text-center">No expenses logged yet. Add an expense to see category percentages.</p>`;
-        } else {
-          const sorted = [...appState.expenseCategories]
-            .map(c => ({ ...c, spent: m.byCategory[c.id] || 0 }))
-            .sort((a, b) => b.spent - a.spent);
-
-          barsEl.innerHTML = sorted.map(c => {
-            const pct = (c.spent / m.totalExpensesPHP) * 100;
-            return `
-              <div class="space-y-1.5">
-                <div class="flex items-center justify-between text-xs">
-                  <span class="text-[var(--ink)] font-medium">${c.icon} ${escapeHtml(c.id)}</span>
-                  <span class="tabular-nums text-[var(--ink)] font-semibold">${fmtPHP(c.spent)} <span class="text-[var(--muted)] font-normal">(${pct.toFixed(1)}%)</span></span>
-                </div>
-                <div class="w-full h-2 rounded-full border border-[var(--line)] overflow-hidden" style="background: color-mix(in srgb, var(--accent) 12%, transparent);">
-                  <div class="h-full rounded-full transition-all duration-500" style="width: ${pct}%; background: linear-gradient(90deg, var(--accent), var(--g2));"></div>
-                </div>
-              </div>
-            `;
-          }).join('');
-        }
-
-        const expCurEmpty = document.getElementById('insights-exp-cur-empty');
-        if (charts.insightsExpCurrency) { charts.insightsExpCurrency.destroy(); charts.insightsExpCurrency = null; }
-        if (m.totalExpensesPHP <= 0) {
-          expCurEmpty.classList.remove('hidden');
-        } else {
-          expCurEmpty.classList.add('hidden');
-          charts.insightsExpCurrency = new Chart(document.getElementById('insightsExpenseCurrencyChart').getContext('2d'), {
-            type: 'doughnut',
-            data: {
-              labels: ['PHP Local Expenses', 'USD Subscriptions/Tools'],
-              datasets: [{
-                data: [m.phpExpensePHP, m.usdExpensePHP],
-                backgroundColor: [t.accent, t.mark],
-                borderColor: t.surface,
-                borderWidth: 3,
-              }]
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio: false,
-              cutout: '68%',
-              plugins: {
-                legend: { position: 'bottom', labels: { color: t.muted, font: { size: 11 } } },
-                tooltip: {
-                  backgroundColor: t.surface,
-                  titleColor: t.ink,
-                  bodyColor: t.ink,
-                  borderColor: t.line,
-                  borderWidth: 1,
-                  callbacks: { label: c => `${c.label}: ${fmtPHP(c.parsed)}` }
-                }
-              }
-            }
-          });
-        }
-      }
-    }
-
-    // ---------- VIEW 5: BUDGETS ----------
-    function renderBudgetsView() {
-      const m = computeMetrics();
+    // ---------- VIEW 6: BUDGETS ----------
+    function renderBudgetsView(m) {
       const totalAllocated = appState.expenseCategories.reduce((sum, c) => sum + (Number(c.limit) || 0), 0);
       document.getElementById('budgets-total-allocated').textContent = fmtPHP(totalAllocated);
 
-      const grid = document.getElementById('budgets-grid');
-      grid.innerHTML = appState.expenseCategories.map((cat, idx) => {
-        const spent = m.byCategory[cat.id] || 0;
+      document.getElementById('budgets-grid').innerHTML = appState.expenseCategories.map((cat, idx) => {
+        const spent = m.monthlyByCategory[cat.id] || 0;
         const limit = Number(cat.limit) || 0;
         const pct = limit > 0 ? Math.min(100, (spent / limit) * 100) : 0;
         const rawPct = limit > 0 ? Math.round((spent / limit) * 100) : 0;
 
-        let barStyle = 'background: linear-gradient(90deg, var(--accent), var(--g2));';
+        // Shifts from indigo (--accent) -> gold (--mark) at 80% -> coral (--g2) at 100%
+        let barColor = 'var(--accent)';
         let badgeColor = 'var(--accent)';
-        if (limit > 0 && spent > limit) {
-          barStyle = 'background: var(--danger);';
-          badgeColor = 'var(--danger)';
+        if (limit > 0 && rawPct >= 100) {
+          barColor = 'var(--g2)';
+          badgeColor = 'var(--g2)';
         } else if (limit > 0 && rawPct >= 80) {
-          barStyle = 'background: var(--mark);';
+          barColor = 'var(--mark)';
           badgeColor = 'var(--mark)';
         }
 
         return `
-          <div class="glass-card p-5 space-y-4">
+          <div class="glass-card p-5 space-y-3.5">
             <div class="flex items-start justify-between gap-2">
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl border border-[var(--line)] flex items-center justify-center text-lg" style="background: color-mix(in srgb, var(--accent) 10%, transparent);">${cat.icon}</div>
-                <div>
-                  <h3 class="font-display font-bold text-sm text-[var(--ink)]">${escapeHtml(cat.id)}</h3>
-                  <p class="text-xs text-[var(--muted)] tabular-nums">
+              <div class="flex items-center gap-2.5 min-w-0">
+                <div class="w-9 h-9 rounded-xl border border-[var(--line)] flex items-center justify-center text-base shrink-0" style="background: color-mix(in srgb, var(--accent) 10%, transparent);">${cat.icon}</div>
+                <div class="min-w-0">
+                  <h3 class="font-display font-bold text-sm text-[var(--ink)] truncate">${escapeHtml(cat.id)}</h3>
+                  <p class="text-[11px] text-[var(--muted)] tabular-nums truncate">
                     ${limit > 0
-                      ? (spent > limit ? `${fmtPHP(spent - limit, 0)} over limit` : `${fmtPHP(limit - spent, 0)} remaining`)
-                      : 'Set a monthly PHP limit below'}
+                      ? (spent > limit ? `${fmtPHP(spent - limit, 0)} over` : `${fmtPHP(limit - spent, 0)} left`)
+                      : 'Set monthly limit'}
                   </p>
                 </div>
               </div>
-              <span class="text-xs font-semibold px-2 py-0.5 rounded-full border tabular-nums" style="color: ${badgeColor}; border-color: ${badgeColor};">
+              <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full border tabular-nums shrink-0" style="color: ${badgeColor}; border-color: ${badgeColor};">
                 ${limit > 0 ? `${rawPct}%` : '₱0'}
               </span>
             </div>
 
             <div class="space-y-1.5">
-              <div class="flex justify-between text-xs tabular-nums">
-                <span class="text-[var(--muted)]">Spent: <strong class="text-[var(--ink)]">${fmtPHP(spent)}</strong></span>
+              <div class="flex justify-between text-[11px] tabular-nums">
+                <span class="text-[var(--muted)]">Spent: <strong class="text-[var(--ink)]">${fmtPHP(spent, 0)}</strong></span>
                 <span class="text-[var(--muted)]">Limit: <strong class="text-[var(--accent)]">${fmtPHP(limit, 0)}</strong></span>
               </div>
-              <div class="w-full h-2.5 rounded-full border border-[var(--line)] overflow-hidden" style="background: color-mix(in srgb, var(--accent) 12%, transparent);">
-                <div class="h-full rounded-full transition-all duration-300" style="width: ${pct}%; ${barStyle}"></div>
+              <div class="w-full h-2 rounded-full border border-[var(--line)] overflow-hidden" style="background: color-mix(in srgb, var(--accent) 12%, transparent);">
+                <div class="h-full rounded-full transition-all duration-300" style="width: ${pct}%; background: ${barColor};"></div>
               </div>
             </div>
 
-            <div class="flex items-center gap-2 pt-1">
+            <div class="flex items-center gap-1.5 pt-0.5">
               <span class="text-xs text-[var(--muted)] font-semibold">₱</span>
               <input
                 type="number"
@@ -2061,7 +2621,7 @@
                 value="${limit}"
                 onchange="updateCategoryLimit(${idx}, this.value)"
                 class="field-input w-full px-3 py-1.5 rounded-xl text-xs font-semibold tabular-nums"
-                placeholder="Monthly limit in PHP"
+                placeholder="Monthly limit"
               />
             </div>
           </div>
@@ -2072,39 +2632,37 @@
     function updateCategoryLimit(idx, val) {
       appState.expenseCategories[idx].limit = Math.max(0, Number(val) || 0);
       saveState();
-      renderBudgetsView();
+      renderCurrentView();
       showToast(`Updated ${appState.expenseCategories[idx].id} limit`);
     }
 
     /*************************************************************************
-     * 6. DUAL-CURRENCY TRANSACTION MODAL, CATEGORY MODAL & CLEAR DATA
+     * 6. MODALS, CRUD ACTIONS & CSV EXPORT
      *************************************************************************/
-    function openTransactionModal(defaultType = 'expense') {
-      const modal = document.getElementById('tx-modal');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
+    function openModal(id) {
+      const m = document.getElementById(id);
+      if (!m) return;
+      m.classList.remove('hidden');
+      m.classList.add('flex');
+      gsap.fromTo(m.querySelector('.glass-modal'), { opacity: 0, scale: 0.94, y: 12 }, { opacity: 1, scale: 1, y: 0, duration: 0.24, ease: 'power3.out' });
+    }
 
+    function closeModal(id) {
+      const m = document.getElementById(id);
+      if (!m) return;
+      m.classList.add('hidden');
+      m.classList.remove('flex');
+    }
+
+    function openTransactionModal(defaultType = 'expense') {
       document.getElementById('tx-wallet').innerHTML = appState.wallets
         .map(w => `<option value="${w.id}">${w.name}</option>`).join('');
-
       document.getElementById('tx-date').value = new Date().toISOString().split('T')[0];
       document.getElementById('tx-amount').value = '';
       document.getElementById('tx-desc').value = '';
       document.getElementById('tx-custom-rate').value = appState.exchangeRate.toFixed(2);
-
       setModalType(defaultType);
-
-      gsap.fromTo(
-        modal.querySelector('.glass-modal'),
-        { opacity: 0, scale: 0.94, y: 14 },
-        { opacity: 1, scale: 1, y: 0, duration: 0.25, ease: 'power3.out' }
-      );
-    }
-
-    function closeTransactionModal() {
-      const modal = document.getElementById('tx-modal');
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
+      openModal('tx-modal');
     }
 
     function setModalType(type) {
@@ -2113,22 +2671,22 @@
       const incBtn = document.getElementById('modal-type-income');
 
       if (type === 'expense') {
-        expBtn.style.background = 'var(--danger)';
-        expBtn.style.color = '#ffffff';
+        expBtn.style.background = 'var(--expense)';
+        expBtn.style.color = '#13112b';
         incBtn.style.background = 'transparent';
         incBtn.style.color = 'var(--muted)';
         setModalCurrency('PHP');
-        document.getElementById('tx-wallet').value = 'main_php';
+        document.getElementById('tx-wallet').value = 'main_bank';
       } else {
-        incBtn.style.background = 'var(--success)';
-        incBtn.style.color = '#ffffff';
+        incBtn.style.background = 'var(--income)';
+        incBtn.style.color = '#13112b';
         expBtn.style.background = 'transparent';
         expBtn.style.color = 'var(--muted)';
-        setModalCurrency(appState.controls.usdPayoutDefault ? 'USD' : 'PHP');
-        document.getElementById('tx-wallet').value = appState.controls.usdPayoutDefault ? 'usd_payout' : 'main_php';
+        setModalCurrency('USD');
+        document.getElementById('tx-wallet').value = 'usd_wise';
       }
 
-      const cats = type === 'expense' ? appState.expenseCategories : DEFAULT_INCOME_CATEGORIES;
+      const cats = type === 'expense' ? appState.expenseCategories : INCOME_CATEGORIES;
       document.getElementById('tx-category').innerHTML = cats
         .map(c => `<option value="${escapeHtml(c.id)}">${c.icon} ${escapeHtml(c.id)}</option>`).join('');
     }
@@ -2161,8 +2719,61 @@
     function updateConversionPreview() {
       const amt = parseFloat(document.getElementById('tx-amount').value) || 0;
       const rate = parseFloat(document.getElementById('tx-custom-rate').value) || appState.exchangeRate;
-      const phpTotal = amt * rate;
-      document.getElementById('tx-conversion-preview').textContent = `${fmtUSD(amt)} × ₱${rate.toFixed(2)} = ${fmtPHP(phpTotal)}`;
+      document.getElementById('tx-conversion-preview').textContent = `= ${fmtPHP(amt * rate)}`;
+    }
+
+    function openRecurringModal(preDay) {
+      document.getElementById('rec-wallet').innerHTML = appState.wallets
+        .map(w => `<option value="${w.id}">${w.name}</option>`).join('');
+      document.getElementById('rec-name').value = '';
+      document.getElementById('rec-amount').value = '';
+      document.getElementById('rec-day').value = preDay || new Date().getDate();
+      setRecModalType('bill');
+      openModal('recurring-modal');
+    }
+
+    function setRecModalType(type) {
+      recModalType = type;
+      const billBtn = document.getElementById('rec-type-bill');
+      const payBtn = document.getElementById('rec-type-payout');
+
+      if (type === 'bill') {
+        billBtn.style.background = 'var(--expense)';
+        billBtn.style.color = '#13112b';
+        payBtn.style.background = 'transparent';
+        payBtn.style.color = 'var(--muted)';
+        document.getElementById('rec-currency').value = 'PHP';
+        document.getElementById('rec-wallet').value = 'main_bank';
+      } else {
+        payBtn.style.background = 'var(--income)';
+        payBtn.style.color = '#13112b';
+        billBtn.style.background = 'transparent';
+        billBtn.style.color = 'var(--muted)';
+        document.getElementById('rec-currency').value = 'USD';
+        document.getElementById('rec-wallet').value = 'usd_wise';
+      }
+
+      const cats = type === 'bill' ? appState.expenseCategories : INCOME_CATEGORIES;
+      document.getElementById('rec-category').innerHTML = cats
+        .map(c => `<option value="${escapeHtml(c.id)}">${c.icon} ${escapeHtml(c.id)}</option>`).join('');
+    }
+
+    function openAddCategoryModal() {
+      document.getElementById('new-cat-name').value = '';
+      document.getElementById('new-cat-limit').value = '0';
+      openModal('category-modal');
+    }
+
+    function openClearDataModal() { openModal('clear-modal'); }
+
+    function confirmClearAllData() {
+      localStorage.removeItem(STORAGE_KEY);
+      appState = createCleanState();
+      saveState();
+      selectedCalendarDay = null;
+      closeModal('clear-modal');
+      renderCurrentView();
+      showToast('All data cleared — workspace reset to ₱0.00');
     }
 
     function deleteTransaction(id) {
@@ -2170,42 +2781,6 @@
       saveState();
       renderCurrentView();
       showToast('Transaction deleted');
-    }
-
-    function openAddCategoryModal() {
-      const m = document.getElementById('category-modal');
-      m.classList.remove('hidden');
-      m.classList.add('flex');
-      document.getElementById('new-cat-name').value = '';
-      document.getElementById('new-cat-limit').value = '0';
-    }
-
-    function closeAddCategoryModal() {
-      const m = document.getElementById('category-modal');
-      m.classList.add('hidden');
-      m.classList.remove('flex');
-    }
-
-    function openClearDataModal() {
-      const m = document.getElementById('clear-modal');
-      m.classList.remove('hidden');
-      m.classList.add('flex');
-      gsap.fromTo(m.querySelector('.glass-modal'), { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 0.24, ease: 'power3.out' });
-    }
-
-    function closeClearDataModal() {
-      const m = document.getElementById('clear-modal');
-      m.classList.add('hidden');
-      m.classList.remove('flex');
-    }
-
-    function confirmClearAllData() {
-      localStorage.removeItem(STORAGE_KEY);
-      appState = createCleanState();
-      saveState();
-      closeClearDataModal();
-      renderCurrentView();
-      showToast('All data cleared — workspace reset to ₱0.00');
     }
 
     function exportCSV() {
@@ -2225,7 +2800,7 @@
           t.currency,
           t.originalAmount,
           t.rateUsed,
-          t.type === 'income' ? t.amountPHP.toFixed(2) : (-t.amountPHP).toFixed(2)
+          t.type === 'income' ? Number(t.amountPHP).toFixed(2) : (-Number(t.amountPHP)).toFixed(2)
         ];
       });
       const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
@@ -2244,20 +2819,15 @@
     function toggleMobileSidebar(open) {
       const sb = document.getElementById('sidebar');
       const bd = document.getElementById('mobile-backdrop');
-      if (open) {
-        sb.classList.remove('-translate-x-full');
-        bd.classList.remove('hidden');
-      } else {
-        sb.classList.add('-translate-x-full');
-        bd.classList.add('hidden');
-      }
+      if (open) { sb.classList.remove('-translate-x-full'); bd.classList.remove('hidden'); }
+      else { sb.classList.add('-translate-x-full'); bd.classList.add('hidden'); }
     }
 
     function showToast(message) {
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
       toast.className = 'toast-enter pointer-events-auto px-4 py-2.5 rounded-xl border text-xs font-medium shadow-xl flex items-center gap-2';
-      toast.style.background = 'var(--surface-solid)';
+      toast.style.background = 'var(--modal-bg)';
       toast.style.borderColor = 'var(--accent)';
       toast.style.color = 'var(--ink)';
       toast.innerHTML = `<span class="w-2 h-2 rounded-full shrink-0" style="background: var(--accent);"></span><span>${escapeHtml(message)}</span>`;
@@ -2267,65 +2837,72 @@
       }, 2800);
     }
 
-    function formatShortDate(iso) {
-      const d = new Date(iso + 'T00:00:00');
-      if (isNaN(d)) return iso;
-      return d.toLocaleDateString('en-PH', { month: 'short', day: 'numeric' });
-    }
-
-    function escapeHtml(str) {
-      return String(str).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
-    }
-
     /*************************************************************************
      * 7. INITIALIZATION & EVENT LISTENERS
      *************************************************************************/
     window.addEventListener('DOMContentLoaded', () => {
-      // Sync Theme Toggle Button Label with initial theme
-      const initialTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-      applyTheme(initialTheme);
-
+      // Sync Theme Toggle
+      applyTheme(document.documentElement.getAttribute('data-theme') || 'dark');
       document.getElementById('theme').addEventListener('click', () => {
         const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         applyTheme(next);
         renderCurrentView();
       });
 
-      // Navigation
+      // Sidebar Nav
       document.querySelectorAll('#sidebar-nav .nav-item').forEach(btn => {
         btn.addEventListener('click', () => switchView(btn.dataset.view));
       });
 
-      // Insights sub-tabs
-      document.querySelectorAll('.insights-subtab-btn').forEach(btn => {
-        btn.addEventListener('click', () => switchInsightsSubtab(btn.dataset.subtab));
+      // Cash Flow Sub-Tabs (GSAP Elastic Horizontal Pill)
+      document.querySelectorAll('#cashflow-subtabs .seg-btn').forEach(btn => {
+        btn.addEventListener('click', () => switchCashflowSubtab(btn.dataset.cfsub));
       });
 
-      // Exchange Rate Input
+      // Transaction Filter Pills (GSAP Elastic Horizontal Pill)
+      document.querySelectorAll('#tx-filter-bar .seg-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          txFilter = btn.dataset.txfilter;
+          document.querySelectorAll('#tx-filter-bar .seg-btn').forEach(b => b.classList.toggle('active', b === btn));
+          slideElasticPill('tx-filter-pill', btn, 'x', 10, false);
+          renderTransactionsView();
+        });
+      });
+
+      document.getElementById('tx-cat-filter').addEventListener('change', e => {
+        txCatFilter = e.target.value;
+        renderTransactionsView();
+      });
+
+      document.getElementById('tx-search-input').addEventListener('input', e => {
+        txSearchQuery = e.target.value;
+        renderTransactionsView();
+      });
+
+      // Global Exchange Rate
       document.getElementById('topbar-rate-input').addEventListener('change', e => {
         const val = parseFloat(e.target.value);
-        if (!val || val <= 0) {
-          e.target.value = appState.exchangeRate.toFixed(2);
-          return;
-        }
+        if (!val || val <= 0) { e.target.value = appState.exchangeRate.toFixed(2); return; }
         appState.exchangeRate = val;
         saveState();
         renderCurrentView();
-        showToast(`Exchange rate updated: 1 USD = ₱${val.toFixed(2)}`);
+        showToast(`FX rate updated: 1 USD = ₱${val.toFixed(2)}`);
       });
 
-      // Monthly Cap Slider
+      // Monthly Spending Cap Slider
       document.getElementById('monthly-cap-slider').addEventListener('input', e => {
         appState.monthlyCap = Number(e.target.value);
         saveState();
-        updateWalletCapUI(computeMetrics().totalExpensesPHP);
+        const m = computeMetrics();
+        updateWalletCapUI(m.monthlyExpenses);
+        renderHeroHeader(m);
       });
 
-      // Live USD -> PHP conversion preview
+      // Live USD -> PHP Conversion Preview
       document.getElementById('tx-amount').addEventListener('input', updateConversionPreview);
       document.getElementById('tx-custom-rate').addEventListener('input', updateConversionPreview);
 
-      // Transaction Submit
+      // Submit Transaction Form
       document.getElementById('tx-form').addEventListener('submit', e => {
         e.preventDefault();
         const origAmount = parseFloat(document.getElementById('tx-amount').value);
@@ -2333,7 +2910,6 @@
         const category = document.getElementById('tx-category').value;
         const walletId = document.getElementById('tx-wallet').value;
         const date = document.getElementById('tx-date').value;
-
         if (!origAmount || origAmount <= 0 || !desc) return;
 
         if (modalType === 'expense' && walletId === 'discretionary' && appState.controls.freezeDiscretionary) {
@@ -2360,16 +2936,41 @@
         });
 
         saveState();
-        closeTransactionModal();
+        closeModal('tx-modal');
         renderCurrentView();
-        showToast(
-          modalCurrency === 'USD'
-            ? `Saved ${fmtUSD(origAmount)} (${fmtPHP(amountPHP)})`
-            : `Saved ${fmtPHP(amountPHP)}`
-        );
+        showToast(modalCurrency === 'USD' ? `Saved ${fmtUSD(origAmount)} (${fmtPHP(amountPHP)})` : `Saved ${fmtPHP(amountPHP)}`);
       });
 
-      // Add Category Submit
+      // Submit Recurring Form
+      document.getElementById('recurring-form').addEventListener('submit', e => {
+        e.preventDefault();
+        const name = document.getElementById('rec-name').value.trim();
+        const currency = document.getElementById('rec-currency').value;
+        const amount = parseFloat(document.getElementById('rec-amount').value);
+        const dayOfMonth = Math.min(31, Math.max(1, parseInt(document.getElementById('rec-day').value, 10) || 1));
+        const category = document.getElementById('rec-category').value;
+        const walletId = document.getElementById('rec-wallet').value;
+        if (!name || !amount || amount <= 0) return;
+
+        appState.recurring.push({
+          id: 'rec-' + Date.now(),
+          type: recModalType,
+          name,
+          currency,
+          amount,
+          dayOfMonth,
+          category,
+          walletId,
+          paidMonths: [],
+        });
+
+        saveState();
+        closeModal('recurring-modal');
+        renderCurrentView();
+        showToast(`Scheduled "${name}" for every ${getOrdinal(dayOfMonth)}`);
+      });
+
+      // Submit Add Category Form
       document.getElementById('category-form').addEventListener('submit', e => {
         e.preventDefault();
         const name = document.getElementById('new-cat-name').value.trim();
@@ -2384,50 +2985,32 @@
 
         appState.expenseCategories.push({ id: name, icon, limit });
         saveState();
-        closeAddCategoryModal();
-        renderBudgetsView();
+        closeModal('category-modal');
+        renderCurrentView();
         showToast(`Added "${name}" category`);
       });
 
-      // Transactions Filters
-      document.querySelectorAll('.tx-filter-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          txTypeFilter = btn.dataset.txfilter;
-          renderTransactionsView();
-        });
-      });
-
-      document.getElementById('tx-currency-filter').addEventListener('change', e => {
-        txCurrencyFilter = e.target.value;
-        renderTransactionsView();
-      });
-
-      // Global Search
-      document.getElementById('global-search').addEventListener('input', e => {
-        searchQuery = e.target.value;
-        if (searchQuery.trim() && currentView !== 'transactions') {
-          switchView('transactions');
-        } else if (currentView === 'transactions') {
-          renderTransactionsView();
-        }
-      });
-
-      // Backdrop close for modals
-      ['tx-modal', 'category-modal', 'clear-modal'].forEach(id => {
+      // Backdrop close for all modals
+      ['tx-modal', 'recurring-modal', 'category-modal', 'clear-modal'].forEach(id => {
         document.getElementById(id).addEventListener('click', e => {
-          if (e.target.id === id) {
-            e.target.classList.add('hidden');
-            e.target.classList.remove('flex');
-          }
+          if (e.target.id === id) closeModal(id);
         });
       });
 
-      // Initialize Sidebar Elastic Pill & Render
-      const activeNav = document.querySelector('#sidebar-nav .nav-item.active');
-      requestAnimationFrame(() => slidePill(activeNav, true));
+      // Initialize Sidebar Elastic Pill & Resize Listener
+      const initNav = document.querySelector('#sidebar-nav .nav-item.active');
+      requestAnimationFrame(() => slideElasticPill('sidebar-pill', initNav, 'y', 14, true));
+
       window.addEventListener('resize', () => {
-        const currentNav = document.querySelector('#sidebar-nav .nav-item.active');
-        if (currentNav) slidePill(currentNav, true);
+        const curNav = document.querySelector('#sidebar-nav .nav-item.active');
+        if (curNav) slideElasticPill('sidebar-pill', curNav, 'y', 14, true);
+        if (currentView === 'cashflow') {
+          const cfBtn = document.querySelector('#cashflow-subtabs .seg-btn.active');
+          if (cfBtn) slideElasticPill('cashflow-subtab-pill', cfBtn, 'x', 10, true);
+        } else if (currentView === 'transactions') {
+          const txBtn = document.querySelector('#tx-filter-bar .seg-btn.active');
+          if (txBtn) slideElasticPill('tx-filter-pill', txBtn, 'x', 10, true);
+        }
       });
 
       renderCurrentView();
